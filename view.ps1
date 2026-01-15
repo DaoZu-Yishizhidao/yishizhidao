@@ -14,3 +14,4 @@ git log --oneline -5
 Write-Host "`n📊 项目统计:" -ForegroundColor Yellow
 Write-Host "文章: $(@(Get-ChildItem 'source/_posts/*.md' -ErrorAction SilentlyContinue).Count) 篇" -ForegroundColor White
 Write-Host "最后更新: $(git log -1 --format='%cd' --date=format:'%Y-%m-%d %H:%M')" -ForegroundColor White
+
