@@ -1,14 +1,14 @@
 # _config.butterfly.yml - 精简稳定版
 # ==================== 站点信息 ====================
-site:
-  title: 《意识之道》思想实验场
-  subtitle: 探索意识、哲学与科技的边界
-  description: 一个关于意识探索、哲学思考和科技伦理的实验性博客
-  keywords: 意识,哲学,科技,人工智能,思想实验
-  author: 道祖
-  language: zh-CN
-  timezone: Asia/Shanghai
-  favicon: /favicon.ico  # 稍后请将图标文件放入 source/ 目录
+
+title: 《意识之道》
+subtitle: 探索意识、哲学与科技的边界
+description: 一个关于意识探索、哲学思考和科技伦理的实验性博客
+keywords: 意识,哲学,科技,人工智能,思想实验
+author: 道祖
+language: zh-CN
+timezone: Asia/Shanghai
+   # 稍后请将图标文件放入 source/ 目录
 
 # ==================== 主题外观 ====================
 theme_color:
@@ -66,3 +66,16 @@ aside:
   card_recent_post:
     enable: true
     limit: 5
+
+
+index_generator:
+  per_page: 8  # 适中数量
+  
+index_post_content:
+  method: 1
+  length: 180
+  suffix: '...'
+  
+post_cover:
+  type: random
+  height: 200px

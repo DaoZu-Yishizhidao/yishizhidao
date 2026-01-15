@@ -3,13 +3,14 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: en
-timezone: ''
+title: 《意识之道》思想实验场
+subtitle: 探索意识、哲学与科技的边界
+description: 一个关于意识探索、哲学思考和科技伦理的实验性博客
+keywords: 意识,哲学,科技,人工智能,思想实验
+author: 道祖
+language: zh-CN
+timezone: Asia/Shanghai
+favicon: /favicon.ico  
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
