@@ -1,0 +1,68 @@
+# _config.butterfly.yml - 精简稳定版
+# ==================== 站点信息 ====================
+site:
+  title: 《意识之道》思想实验场
+  subtitle: 探索意识、哲学与科技的边界
+  description: 一个关于意识探索、哲学思考和科技伦理的实验性博客
+  keywords: 意识,哲学,科技,人工智能,思想实验
+  author: 道祖
+  language: zh-CN
+  timezone: Asia/Shanghai
+  favicon: /favicon.ico  # 稍后请将图标文件放入 source/ 目录
+
+# ==================== 主题外观 ====================
+theme_color:
+  enable: true
+  main: '#667eea'
+  
+mathjax:
+  enable: true
+  # 以下为常用配置，可保持默认
+  tags: none               # 或 'ams' 或 'all'
+  single_dollars: true    # 允许单个 $ 表示行内公式
+  cjk_width: false        # 保持为 false
+  normal_width: false
+  append_css: true
+  every_page: false       # 设为 true 则全局启用，否则需在文章Front-matter中添加 `mathjax: true`
+
+font:
+  font-family: '"Noto Serif SC", -apple-system, sans-serif'
+  font-size: 16px
+
+# ==================== 核心功能配置 ====================
+# 1. 【关键】数学公式支持 (采用最可靠的KaTeX本地化方案)
+katex:
+  enable: true
+  per_page: true  # 全局启用，无需每篇文章单独设置
+
+# 2. CDN配置 - 为KaTeX指定CDN，后续可替换为本地文件
+CDN:
+  katex_css: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/KaTeX/0.15.3/katex.min.css
+  katex_js: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/KaTeX/0.15.3/katex.min.js
+
+# 3. 社交分享 - 直接关闭，避免CDN错误
+social_share:
+  enable: false
+
+# 4. 夜间模式
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: 1
+
+# ==================== 页面布局 ====================
+menu:
+  主页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  分类: /categories/ || fas fa-folder-open
+  标签: /tags/ || fas fa-tags
+  关于: /about/ || fas fa-user
+
+aside:
+  enable: true
+  card_author:
+    enable: true
+    description: 《意识之道》创始人 | 思想探索者
+  card_recent_post:
+    enable: true
+    limit: 5
