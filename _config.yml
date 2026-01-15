@@ -101,9 +101,10 @@ theme: butterfly
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
-
-# Markdown-it 配置
+  type: git
+  repo: https://github.com/DaoZu-Yishizhidao/yishizhidao.git
+  branch: gh-pages
+  message: "博客更新: {{ now('YYYY-MM-DD HH:mm:ss') }}"
 markdown:
   render:
     html: true

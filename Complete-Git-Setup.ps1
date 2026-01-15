@@ -113,40 +113,91 @@ Write-Host "✅ Hexo部署配置已更新" -ForegroundColor Green
 Write-Host "`n📝 创建工作流脚本..." -ForegroundColor Yellow
 
 # 7.1 一键部署脚本
+# 备份有问题的脚本
+if (Test-Path "deploy.ps1") {
+    Rename-Item "deploy.ps1" "deploy.ps1.backup" -Force
+    Write-Host "⚠️  已将原有问题的脚本备份为 deploy.ps1.backup" -ForegroundColor Yellow
+}
+
+# 创建正确的部署脚本
 @"
+# ====================================================
 # Hexo博客一键部署脚本
+# 版本: 2.0 (修复版)
+# 作者: 《意识之道》技术团队
+# ====================================================
+
 Write-Host "🚀 《意识之道》博客部署流程" -ForegroundColor Cyan
 Write-Host "=" * 50 -ForegroundColor DarkGray
 
+# 检查必要插件
+Write-Host "`n🔍 检查部署插件..." -ForegroundColor Yellow
+if (-not (Test-Path "node_modules\hexo-deployer-git")) {
+    Write-Host "❌ 未找到部署插件，正在安装..." -ForegroundColor Red
+    npm install hexo-deployer-git --save
+}
+
 # 步骤1: 生成静态文件
 Write-Host "`n📦 生成静态文件..." -ForegroundColor Yellow
-hexo clean
-hexo g
+try {
+    hexo clean
+    hexo g
+    Write-Host "✅ 静态文件生成成功" -ForegroundColor Green
+} catch {
+    Write-Host "❌ 生成静态文件失败: `$_" -ForegroundColor Red
+    exit 1
+}
 
 # 步骤2: 部署到GitHub Pages
 Write-Host "`n🌐 部署到GitHub Pages..." -ForegroundColor Yellow
-hexo d
+try {
+    hexo d
+    Write-Host "✅ GitHub Pages部署完成" -ForegroundColor Green
+} catch {
+    Write-Host "❌ GitHub Pages部署失败: `$_" -ForegroundColor Red
+    Write-Host "提示: 请检查_config.yml中的deploy配置" -ForegroundColor Yellow
+}
 
-# 步骤3: 备份源代码
+# 步骤3: 备份源代码到GitHub
 Write-Host "`n💾 备份源代码到GitHub..." -ForegroundColor Yellow
 \$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-git add .
-\$status = git status --porcelain
-if (\$status) {
-    git commit -m "博客更新: \$timestamp"
-    git push origin main
-    Write-Host "✅ 源代码已备份" -ForegroundColor Green
-} else {
-    Write-Host "ℹ️  没有需要提交的更改" -ForegroundColor Cyan
+
+try {
+    # 添加所有更改
+    git add .
+    
+    # 检查是否有更改
+    \$gitStatus = git status --porcelain
+    if (\$gitStatus) {
+        # 有更改，提交并推送
+        git commit -m "博客更新: \$timestamp"
+        git push origin main
+        Write-Host "✅ 源代码已备份到GitHub" -ForegroundColor Green
+    } else {
+        Write-Host "ℹ️  没有需要提交的更改" -ForegroundColor Cyan
+    }
+} catch {
+    Write-Host "⚠️  源代码备份失败: `$_" -ForegroundColor Yellow
 }
 
 # 步骤4: 显示信息
 Write-Host "`n📊 部署完成！" -ForegroundColor Green
+Write-Host "=" * 40 -ForegroundColor DarkGray
 Write-Host "博客地址: https://daozu-yishizhidao.github.io/yishizhidao/" -ForegroundColor White
+Write-Host "源码仓库: https://github.com/DaoZu-Yishizhidao/yishizhidao" -ForegroundColor White
 Write-Host "部署时间: \$timestamp" -ForegroundColor White
+
+# 步骤5: 检查GitHub Pages状态
+Write-Host "`n🔗 GitHub Pages状态检查：" -ForegroundColor Yellow
+Write-Host "1. 访问 https://github.com/DaoZu-Yishizhidao/yishizhidao/settings/pages" -ForegroundColor Gray
+Write-Host "2. 确保分支设置为 'gh-pages'" -ForegroundColor Gray
+Write-Host "3. 首次部署可能需要几分钟才能访问" -ForegroundColor Gray
 "@ | Out-File -FilePath "deploy.ps1" -Encoding UTF8
 
+Write-Host "✅ 部署脚本已修复并重新创建" -ForegroundColor Green
+
 # 7.2 快速检查脚本
+# 修复检查状态脚本
 @"
 # Git和Hexo状态检查
 Write-Host "🔍 《意识之道》博客状态检查" -ForegroundColor Cyan
@@ -167,7 +218,54 @@ hexo version
 Write-Host "`n📊 文章统计：" -ForegroundColor Yellow
 \$postCount = (Get-ChildItem "source/_posts" -Filter "*.md" | Measure-Object).Count
 Write-Host "已创建文章: \$postCount 篇" -ForegroundColor White
+
+Write-Host "`n🔗 插件检查：" -ForegroundColor Yellow
+\$deployerInstalled = Test-Path "node_modules\hexo-deployer-git"
+if (\$deployerInstalled) {
+    Write-Host "✅ hexo-deployer-git: 已安装" -ForegroundColor Green
+} else {
+    Write-Host "❌ hexo-deployer-git: 未安装" -ForegroundColor Red
+    Write-Host "   运行: npm install hexo-deployer-git --save" -ForegroundColor Yellow
+}
 "@ | Out-File -FilePath "check-status.ps1" -Encoding UTF8
+
+
+# 检查并修复部署配置
+Write-Host "`n⚙️  检查Hexo部署配置..." -ForegroundColor Yellow
+
+# 读取当前配置
+$configPath = "_config.yml"
+$configContent = Get-Content $configPath -Raw
+
+# 检查是否有deploy配置
+if ($configContent -notmatch "deploy:") {
+    Write-Host "❌ 未找到部署配置，正在添加..." -ForegroundColor Red
+    
+    # 在文件末尾添加部署配置
+    $deployConfig = @"
+
+# Deployment
+## Docs: https://hexo.io/docs/one-command-deployment
+deploy:
+  type: git
+  repo: https://github.com/DaoZu-Yishizhidao/yishizhidao.git
+  branch: gh-pages
+  message: "博客更新: {{ now('YYYY-MM-DD HH:mm:ss') }}"
+"@
+    
+    $configContent += $deployConfig
+    $configContent | Out-File $configPath -Encoding UTF8
+    Write-Host "✅ 已添加部署配置" -ForegroundColor Green
+} else {
+    Write-Host "✅ 部署配置已存在" -ForegroundColor Green
+    
+    # 显示当前部署配置
+    $deploySection = [regex]::Match($configContent, "deploy:(.|\n)+?(?=\n\w+:|$)").Value
+    Write-Host "当前配置:" -ForegroundColor Cyan
+    Write-Host $deploySection -ForegroundColor Gray
+}
+
+
 
 Write-Host "✅ 工作流脚本创建完成" -ForegroundColor Green
 
