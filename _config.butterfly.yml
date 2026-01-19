@@ -1,81 +1,135 @@
-# _config.butterfly.yml - 精简稳定版
-# ==================== 站点信息 ====================
+# ============================================
+# 《意识之道》博客 - Butterfly 主题主配置文件
+# 版本：v5.5.3 优化稳定版
+# ============================================
 
-title: 《意识之道》
-subtitle: 探索意识、哲学与科技的边界
-description: 一个关于意识探索、哲学思考和科技伦理的实验性博客
-keywords: 意识,哲学,科技,人工智能,思想实验
-author: 道祖
-language: zh-CN
-timezone: Asia/Shanghai
-   # 稍后请将图标文件放入 source/ 目录
+# -------------------- 站点信息 --------------------
+site:
+  title: 《意识之道》思想实验场
+  subtitle: 探索意识、哲学与科技的边界
+  description: 一个关于意识探索、哲学思考和科技伦理的实验性博客
+  keywords: 意识，哲学，科技，人工智能，思想实验
+  author: 道祖
+  language: zh-CN
+  timezone: Asia/Shanghai
+  since: 2023
+  # 图标配置（请将你的图标文件放入 source/ 目录）
+  favicon: /img/favicon.ico
+  # apple_touch_icon: /apple-touch-icon.png
 
-# ==================== 主题外观 ====================
+# -------------------- 网址与路径 --------------------
+url: https://yishizhidao.cn
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+pretty_urls:
+  trailing_index: false
+  trailing_html: true
+
+# -------------------- 主题外观与字体 --------------------
 theme_color:
   enable: true
-  main: '#667eea'
-  
-mathjax:
-  enable: true
-  # 以下为常用配置，可保持默认
-  tags: none               # 或 'ams' 或 'all'
-  single_dollars: true    # 允许单个 $ 表示行内公式
-  cjk_width: false        # 保持为 false
-  normal_width: false
-  append_css: true
-  every_page: false       # 设为 true 则全局启用，否则需在文章Front-matter中添加 `mathjax: true`
+  main: '#667eea'          # 主色调
+  paginator: '#a78bfa'     # 分页器颜色
+  button_hover: '#764ba2'  # 按钮悬停色
+  text_selection: '#667eea' # 文本选中色
+  link_color: '#4f46e5'    # 链接颜色
+  link_hover_color: '#7c3aed' # 链接悬停色
 
 font:
-  font-family: '"Noto Serif SC", -apple-system, sans-serif'
+  font-family: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif"
   font-size: 16px
+  code-font-size: 14px
 
-# ==================== 核心功能配置 ====================
-# 1. 【关键】数学公式支持 (采用最可靠的KaTeX本地化方案)
+
+# KaTeX - 必须关闭主题自带的引擎
 katex:
-  enable: true
-  per_page: true  # 全局启用，无需每篇文章单独设置
+  enable: false
+  per_page: false
 
-# 2. CDN配置 - 为KaTeX指定CDN，后续可替换为本地文件
-CDN:
-  katex_css: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/KaTeX/0.15.3/katex.min.css
-  katex_js: https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/KaTeX/0.15.3/katex.min.js
+# MathJax - 也必须关闭
+mathjax:
+  enable: false
 
-# 3. 社交分享 - 直接关闭，避免CDN错误
+
+# 【关键】社交分享：完全禁用，消除错误和冗余请求
 social_share:
   enable: false
 
-# 4. 夜间模式
+# 代码高亮
+highlight:
+  enable: true
+  line_number: true
+  theme: macos
+  copy_button: true
+
+# 夜间模式
 darkmode:
   enable: true
   button: true
-  autoChangeMode: 1
+  autoChangeMode: 1  # 1: 跟随系统， 2: 根据时间
 
-# ==================== 页面布局 ====================
+# 阅读模式
+readmode:
+  enable: true
+
+# -------------------- 页面布局与导航 --------------------
 menu:
   主页: / || fas fa-home
   归档: /archives/ || fas fa-archive
   分类: /categories/ || fas fa-folder-open
   标签: /tags/ || fas fa-tags
   关于: /about/ || fas fa-user
+  # 时间线: /timeline/ || fas fa-stream
 
+# 首页设置
+index:
+  post_url_target: _blank
+  post_count: 10
+
+# -------------------- 侧边栏配置 --------------------
 aside:
   enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+
+  # 作者卡片
   card_author:
     enable: true
     description: 《意识之道》创始人 | 思想探索者
+    button:
+      enable: true
+      icon: fab fa-github
+      text: GitHub
+      link: https://github.com/yourusername
+
+  # 公告栏
+  card_announcement:
+    enable: true
+    content: '🧪 思想实验进行中，欢迎参与讨论。'
+
+  # 最新文章
   card_recent_post:
     enable: true
     limit: 5
+    sort: updated # 可选 date
 
+  # 分类与标签
+  card_categories:
+    enable: true
+    limit: 10
+  card_tags:
+    enable: true
+    limit: 20
+    color: true
 
-index_generator:
-  per_page: 8  # 适中数量
-  
-index_post_content:
-  method: 1
-  length: 180
-  suffix: '...'
-  
-post_cover:
-  type: random
-  height: 200px
+# -------------------- 页脚 --------------------
+footer:
+  owner:
+    enable: true
+    since: 2023
+  custom_text: '🧠 思想需要碰撞，意识需要觉醒。'
+  copyright: true
+

@@ -10,7 +10,7 @@ keywords: 意识,哲学,科技,人工智能,思想实验
 author: 道祖
 language: zh-CN
 timezone: Asia/Shanghai
-favicon: /favicon.ico  
+favicon: /img/favicon.ico  
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
@@ -106,6 +106,9 @@ deploy:
   repo: https://github.com/DaoZu-Yishizhidao/yishizhidao.git
   branch: gh-pages
   message: "博客更新: {{ now('YYYY-MM-DD HH:mm:ss') }}"
+
+
+# Markdown-it config
 markdown:
   render:
     html: true
@@ -113,7 +116,7 @@ markdown:
     breaks: true
     linkify: true
     typographer: true
-    quotes: '“”‘’'
   plugins:
-    - '@renbaoshuo/markdown-it-katex'
+    - '@renbaoshuo/markdown-it-katex' # 这是关键，启用KaTeX支持
+
 
