@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 《意识之道》思想实验场
-subtitle: 探索意识、哲学与科技的边界
+title: 意识之道
+subtitle: 道祖曰：立自我，成本我，利众生，达无我
 description: 一个关于意识探索、哲学思考和科技伦理的实验性博客
-keywords: 意识,哲学,科技,人工智能,思想实验
+keywords: 意识,哲学,思想实验，自指指向，动态双指向，道分阴阳
 author: 道祖
 language: zh-CN
 timezone: Asia/Shanghai
@@ -14,12 +14,14 @@ favicon: /img/favicon.ico
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://yishizhidao.cn
+root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
+
 
 # Directory
 source_dir: source

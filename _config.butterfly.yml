@@ -26,6 +26,74 @@ pretty_urls:
   trailing_index: false
   trailing_html: true
 
+
+# 首页设置
+index:
+  post_url_target: _blank
+  post_count: 10
+index_img: /img/home-cover.jpg
+# 首页副标题配置
+subtitle:
+  enable: true          # 可以开启副标题功能
+  effect: true          # 可以开启打字机效果
+  # 关键：typed_option 必须显式配置为空或简单值，覆盖主题内置的CDN链接
+  typed_option:
+    # 保留为空对象，或者只设置基础参数，不指定外部src
+    # 例如：
+    # strings: ['道祖曰：立自我，成本我，利众生，达无我']
+    # typeSpeed: 60
+    # loop: true
+  source: false
+  sub:
+    - 道祖曰：立自我，成本我，利众生，达无我
+
+
+
+
+# ==================== CDN 配置 ====================
+
+
+# ==================== 注入智能降级标签 (核心) ====================
+# 说明：这是实现“网络优先，失败降级”的主力。浏览器会优先执行这里的标签。
+inject:
+  head:
+    # FontAwesome - 移除integrity，修正本地路径
+    - |
+      <link rel="stylesheet"
+            href="/lib/fontawesome/css/all.min.css"
+            onerror="
+              this.onerror=null;
+              this.href='/lib/fontawesome/css/all.min.css'; <!-- 注意是libs，不是lib -->
+              console.info('FontAwesome：CDN失败，已切换至本地。');
+            ">
+  bottom:
+    # jQuery - 移除integrity
+    - |
+      <script src="/lib/jquery/jquery.min.js"
+              onerror="
+                this.onerror=null;
+                this.src='/lib/jquery/jquery.min.js';
+                console.info('jQuery：CDN失败，已切换至本地。');
+              "></script>
+    # Typed.js - 使用备选CDN，修正本地路径
+    - |
+      <script src="/lib/typed/typed.min.js"
+        onerror="
+          this.onerror=null;
+          this.src='/lib/typed/typed.min.js';
+          console.info('jQuery：CDN失败，已切换至本地。');
+        "></script>
+    - |
+      <script src="/lib/typed/typed.umd.min.js"
+        onerror="
+          this.onerror=null;
+          this.src='/lib/typed/typed.umd.min.js';
+          console.info('jQuery：CDN失败，已切换至本地。');
+        "></script>
+
+
+
+
 # -------------------- 主题外观与字体 --------------------
 theme_color:
   enable: true
@@ -82,10 +150,7 @@ menu:
   关于: /about/ || fas fa-user
   # 时间线: /timeline/ || fas fa-stream
 
-# 首页设置
-index:
-  post_url_target: _blank
-  post_count: 10
+
 
 # -------------------- 侧边栏配置 --------------------
 aside:
@@ -129,7 +194,7 @@ aside:
 footer:
   owner:
     enable: true
-    since: 2023
-  custom_text: '🧠 思想需要碰撞，意识需要觉醒。'
+    since: 2026
+  custom_text: <a href="https://beian.miit.gov.cn/"><span>备案号：苏ICP备2026003166号-1</span></a>
   copyright: true
    
