@@ -51,45 +51,26 @@ subtitle:
 
 
 # ==================== CDN 配置 ====================
+CDN:
+  internal_provider: local     # 主题内部文件使用本地
+  third_party_provider: local  # **关键：所有第三方库强制使用本地**
+  version: false               # **关键：关闭版本号，使用插件提供的固定版本**
+  option:
+    css:
+      katex: /js/katex/katex.min.css                  # KaTeX数学公式样式
+      prismjs: /js/prismjs/prism.min.css              # Prism代码高亮样式
+    js:
+      jquery: /js/jquery/jquery.min.js                # jQuery
+      typed: /js/typed/typed.min.js                   # 打字机效果
+      katex: /js/katex/katex.min.js                   # KaTeX数学公式核心
+      prismjs: /js/prismjs/prism.min.js               # Prism代码高亮核心
+      # ... 其他您需要的库
 
-
-# ==================== 注入智能降级标签 (核心) ====================
-# 说明：这是实现“网络优先，失败降级”的主力。浏览器会优先执行这里的标签。
 inject:
   head:
     # FontAwesome - 移除integrity，修正本地路径
     - |
-      <link rel="stylesheet"
-            href="/lib/fontawesome/css/all.min.css"
-            onerror="
-              this.onerror=null;
-              this.href='/lib/fontawesome/css/all.min.css'; <!-- 注意是libs，不是lib -->
-              console.info('FontAwesome：CDN失败，已切换至本地。');
-            ">
-  bottom:
-    # jQuery - 移除integrity
-    - |
-      <script src="/lib/jquery/jquery.min.js"
-              onerror="
-                this.onerror=null;
-                this.src='/lib/jquery/jquery.min.js';
-                console.info('jQuery：CDN失败，已切换至本地。');
-              "></script>
-    # Typed.js - 使用备选CDN，修正本地路径
-    - |
-      <script src="/lib/typed/typed.min.js"
-        onerror="
-          this.onerror=null;
-          this.src='/lib/typed/typed.min.js';
-          console.info('jQuery：CDN失败，已切换至本地。');
-        "></script>
-    - |
-      <script src="/lib/typed/typed.umd.min.js"
-        onerror="
-          this.onerror=null;
-          this.src='/lib/typed/typed.umd.min.js';
-          console.info('jQuery：CDN失败，已切换至本地。');
-        "></script>
+      <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
 
 
 
