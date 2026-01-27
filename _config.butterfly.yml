@@ -86,7 +86,7 @@ theme_color:
   button_hover: '#764ba2'  # 按钮悬停色
   text_selection: '#667eea' # 文本选中色
   link_color: '#4f46e5'    # 链接颜色
-  #link_hover_color: '#7c3aed' # 链接悬停色
+  link_hover_color: '#4f46e5' # 链接悬停色
 
 font:
   font-family: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif"
@@ -176,9 +176,10 @@ aside:
 
 # -------------------- 页脚 --------------------
 footer:
+  background-color: '#1e293b'
   owner:
     enable: true
     since: 2026
-  custom_text: <a href="https://beian.miit.gov.cn/"><span>苏ICP备2026003166号-1</span></a>
+  custom_text: <a href="https://beian.miit.gov.cn/">苏ICP备2026003166号-1</a>
   copyright: true
    
