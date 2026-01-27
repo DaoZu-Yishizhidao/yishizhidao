@@ -157,7 +157,7 @@ aside:
   # 公告栏
   card_announcement:
     enable: true
-    content: '🧪 思想实验进行中，欢迎参与讨论。'
+    content: '🧪 网站持续建设中'
 
   # 最新文章
   card_recent_post:
