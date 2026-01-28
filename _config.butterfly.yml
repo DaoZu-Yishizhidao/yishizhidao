@@ -128,6 +128,18 @@ readmode:
 # -------------------- 页面布局与导航 --------------------
 menu:
   主页: / || fas fa-home
+  意识之道||fas fa-list||hide: 
+    总览: /consciousness-dao/
+    开天地: /buildself/
+    演化: /evolution/
+  道祖道论: /daozu-dao/
+  道行哲学||fas fa-list||hide: 
+    总览: /philosophy/
+    东方思想: /eastern/
+    西方思想: /western/
+    融合超越: /buildphi/
+  道行科学: /science/
+  网站构建: /buildweb/ 
   归档: /archives/ || fas fa-archive
   分类: /categories/ || fas fa-folder-open
   标签: /tags/ || fas fa-tags
