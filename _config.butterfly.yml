@@ -134,7 +134,9 @@ menu:
   关于: /about/ || fas fa-user
   # 时间线: /timeline/ || fas fa-stream
 
-
+avatar:
+  img: /img/DaoZu.png
+  effect: false
 
 # -------------------- 侧边栏配置 --------------------
 aside:
@@ -153,6 +155,7 @@ aside:
       icon: fab fa-github
       text: GitHub
       link: https://github.com/yourusername
+
 
   # 公告栏
   card_announcement:
