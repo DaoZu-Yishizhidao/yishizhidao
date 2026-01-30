@@ -1,8 +1,8 @@
 ---
 title: Git构建
 date: 2026-01-16 00:06
-tags: [Git, 搭建]
-categories: 网站记录
+tags: [Git]
+categories: 网站构建
 ---
 
 

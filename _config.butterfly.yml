@@ -1,37 +1,73 @@
 # ============================================
 # 《意识之道》博客 - Butterfly 主题主配置文件
-# 版本：v5.5.3 优化稳定版
+# 作者：道祖
+# 版本：v1 
+# 日期：2026-01-31 02：34
+# 更新日期：2026-01-31 02：34
 # ============================================
 
-# -------------------- 站点信息 --------------------
-site:
-  title: 《意识之道》思想实验场
-  subtitle: 探索意识、哲学与科技的边界
-  description: 一个关于意识探索、哲学思考和科技伦理的实验性博客
-  keywords: 意识，哲学，科技，人工智能，思想实验
-  author: 道祖
-  language: zh-CN
-  timezone: Asia/Shanghai
-  since: 2023
-  # 图标配置（请将你的图标文件放入 source/ 目录）
-  favicon: /img/favicon.ico
-  # apple_touch_icon: /apple-touch-icon.png
 
-# -------------------- 网址与路径 --------------------
-url: https://yishizhidao.cn
-root: /
-permalink: :year/:month/:day/:title/
-permalink_defaults:
-pretty_urls:
-  trailing_index: false
-  trailing_html: true
+# ==================== CDN 配置 ====================
+CDN:
+  internal_provider: local     # 主题内部文件使用本地
+  third_party_provider: local  # **关键：所有第三方库强制使用本地**
+  version: false               # **关键：关闭版本号，使用插件提供的固定版本**
+  option:
+    css:
+      katex: /js/katex/katex.min.css                  # KaTeX数学公式样式
+      prismjs: /js/prismjs/prism.min.css              # Prism代码高亮样式
+    js:
+      jquery: /js/jquery/jquery.min.js                # jQuery
+      typed: /js/typed/typed.min.js                   # 打字机效果
+      katex: /js/katex/katex.min.js                   # KaTeX数学公式核心
+      prismjs: /js/prismjs/prism.min.js               # Prism代码高亮核心
+      # ... 其他您需要的库
+
+#注入自定义内容
+inject:
+  head:
+    # FontAwesome - 移除integrity，修正本地路径
+    - |
+      <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
 
 
-# 首页设置
+# ==================== 功能配置 ====================
+# 关闭主题数学公式，避免冲突
+katex:
+  enable: false
+  per_page: false
+mathjax:
+  enable: false
+
+
+# 社交分享
+social_share:
+  enable: false
+
+# 代码高亮
+highlight:
+  enable: true
+  line_number: true
+  theme: macos
+  copy_button: true
+
+# 夜间模式
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: 1  # 1: 跟随系统， 2: 根据时间
+
+# 阅读模式
+readmode:
+  enable: true
+
+
+# ==================== 首页配置 ====================
+index_img: /img/home-cover.jpg
 index:
   post_url_target: _blank
   post_count: 10
-index_img: /img/home-cover.jpg
+
 # 首页副标题配置
 subtitle:
   enable: true          # 可以开启副标题功能
@@ -53,30 +89,12 @@ subtitle:
 
 
 
-# ==================== CDN 配置 ====================
-CDN:
-  internal_provider: local     # 主题内部文件使用本地
-  third_party_provider: local  # **关键：所有第三方库强制使用本地**
-  version: false               # **关键：关闭版本号，使用插件提供的固定版本**
-  option:
-    css:
-      katex: /js/katex/katex.min.css                  # KaTeX数学公式样式
-      prismjs: /js/prismjs/prism.min.css              # Prism代码高亮样式
-    js:
-      jquery: /js/jquery/jquery.min.js                # jQuery
-      typed: /js/typed/typed.min.js                   # 打字机效果
-      katex: /js/katex/katex.min.js                   # KaTeX数学公式核心
-      prismjs: /js/prismjs/prism.min.js               # Prism代码高亮核心
-      # ... 其他您需要的库
+# ==================== 全局配置 ====================
 
-inject:
-  head:
-    # FontAwesome - 移除integrity，修正本地路径
-    - |
-      <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
-
-
-
+#作者头像
+avatar:
+  img: /img/DaoZu.png
+  effect: false
 
 # -------------------- 主题外观与字体 --------------------
 theme_color:
@@ -94,43 +112,13 @@ font:
   code-font-size: 14px
 
 
-# KaTeX - 必须关闭主题自带的引擎
-katex:
-  enable: false
-  per_page: false
-
-# MathJax - 也必须关闭
-mathjax:
-  enable: false
-
-
-# 【关键】社交分享：完全禁用，消除错误和冗余请求
-social_share:
-  enable: false
-
-# 代码高亮
-highlight:
-  enable: true
-  line_number: true
-  theme: macos
-  copy_button: true
-
-# 夜间模式
-darkmode:
-  enable: true
-  button: true
-  autoChangeMode: 1  # 1: 跟随系统， 2: 根据时间
-
-# 阅读模式
-readmode:
-  enable: true
 
 # -------------------- 页面布局与导航 --------------------
 menu:
   主页: / || fas fa-home
   意识之道||fas fa-list||hide: 
     总览: /consciousness-dao/
-    开天地: /buildself/
+    立道祖: /builddaozu/
     演化: /evolution/
   道祖道论: /daozu-dao/
   道行哲学||fas fa-list||hide: 
@@ -146,9 +134,7 @@ menu:
   关于: /about/ || fas fa-user
   # 时间线: /timeline/ || fas fa-stream
 
-avatar:
-  img: /img/DaoZu.png
-  effect: false
+
 
 # -------------------- 侧边栏配置 --------------------
 aside:
@@ -197,9 +183,17 @@ footer:
   copyright: true 
   custom_text: |
     <span class="framework-info">
+      <span>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener" style="color: #f7f7f7; text-decoration: none;" >
+          <img src="/img/icp.png" class="icp-icon">苏ICP备2026003166号-1
+        </a>
+      </span>
       <span class="footer-separator">|</span>
       <span>
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener" style="color: #f7f7f7; text-decoration: none;" ><img src="/img/icp.png" class="icp-icon"></span>苏ICP备2026003166号-1</a>
+        <a href="https://beian.mps.gov.cn/#/query/webSearch?code=32011602010707" rel="noreferrer" target="_blank" style="color: #f7f7f7; text-decoration: none;">
+          <img src="/img/gaicon.png" class="icp-icon">苏公网安备32011602010707号
+        </a>
       </span>
     </span>
    
+

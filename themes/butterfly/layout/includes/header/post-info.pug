@@ -25,6 +25,16 @@
             i.fa-fw.post-meta-icon(class=date_icon)
             span.post-meta-label= date_title
             time(datetime=date_xml(page[date_type]) title=date_title + ' ' + full_date(page[date_type]))= date(page[date_type], config.date_format)
+      //- 自定义内容开始
+      //- 显示写作时间 (如果文章 Front-matter 中有 writing_date)
+      if page.writing_date
+        span.post-meta-separator |
+        span.post-meta-writingdate
+        i.fas.fa-pen-fancy.fa-fw.post-meta-icon
+        span.post-meta-label 写作于
+        time(datetime=date_xml(page.writing_date) title='写作时间' + ' ' + full_date(page.writing_date))= date(page.writing_date, config.date_format)
+      //- 自定义内容结束
+
       if theme.post_meta.post.categories && page.categories.data.length > 0
         span.post-meta-categories
           if theme.post_meta.post.date_type

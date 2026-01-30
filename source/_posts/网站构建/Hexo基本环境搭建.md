@@ -1,8 +1,8 @@
 ---
 title: 第一阶段：基础环境搭建
 date: 2026-01-15 23:58
-tags: [网站, 搭建]
-categories: 网站记录
+tags: [Hexo]
+categories: 网站构建
 ---
 
 
