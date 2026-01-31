@@ -2,7 +2,7 @@
 title: Git构建
 date: 2026-01-16 00:06
 tags: [Git]
-categories: 网站构建
+categories: [实践方向,技术之道,网站构建]
 ---
 
 
