@@ -17,10 +17,10 @@ language: zh-CN
 timezone: Asia/Shanghai
 favicon: /img/favicon.ico
 
-# URL
+# URL https://yishizhidao.cn 或 http://localhost:4000
 url: https://yishizhidao.cn
 root: /
-permalink: :year/:month/:day/:title/
+permalink: :slug/
 permalink_defaults:
 pretty_urls:
   trailing_index: true
@@ -69,7 +69,30 @@ index_generator:
 
 # Category & Tag
 default_category: uncategorized
-category_map: # 保持为空，按你要求暂不添加映射
+category_map: 
+    # 道经卷
+  道经卷: dao-scripture
+  法则篇: principles
+  道演篇: evolution
+  
+  # 道境卷
+  道境卷: dao-state
+  道境之门: gate
+  境界论述: state-discussion
+  实修根本: foundation
+  实修经: scripture
+  实修理术: methods
+  
+  # 实践方向
+  实践方向: practice
+  哲学之道: philosophy
+  科学之道: science
+  技术之道: technology
+  道祖之道: daozu
+  
+  # 其他
+  道论: discussion
+  参考: reference
 tag_map:
 
 # Metadata elements

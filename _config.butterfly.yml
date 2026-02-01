@@ -127,26 +127,26 @@ menu:
   
   # 核心：道经体系（文章聚合门户）
   道经体系||fas fa-book-open||hide:
-    法则篇: /categories/道经卷/法则篇/ || fas fa-gavel
-    道演篇: /categories/道经卷/道演篇/ || fas fa-code-branch
+    法则篇: /categories/dao-scripture/principles/ || fas fa-gavel
+    道演篇: /categories/dao-scripture/evolution/ || fas fa-code-branch
   
   # 核心：道境体系（文章聚合门户）
   道境体系||fas fa-mountain||hide:
-    道境之门: /categories/道境卷/道境之门/ || fas fa-door-open
-    境界论述: /categories/道境卷/境界论述/ || fas fa-comment-alt
-    实修根本: /categories/道境卷/实修根本/ || fas fa-seedling
-    实修经: /categories/道境卷/实修经/ || fas fa-book
-    实修理术: /categories/道境卷/实修理术/ || fas fa-tools
+    道境之门: /categories/dao-state/gate/ || fas fa-door-open
+    境界论述: /categories/dao-state/state-discussion/ || fas fa-comment-alt
+    实修根本: /categories/dao-state/foundation/ || fas fa-seedling
+    实修经: /categories/dao-state/scripture/ || fas fa-book
+    实修理术: /categories/dao-state/methods/ || fas fa-tools
   
   # 实践记录（持续性文章）
   道行实践||fas fa-list||hide:
     #实践方向||fas fa-compass||hide:
-    哲学之道: /categories/实践方向/哲学之道/ || fas fa-brain
-    科学之道: /categories/实践方向/科学之道/ || fas fa-flask
-    技术之道: /categories/实践方向/技术之道/ || fas fa-code
-    道祖之道: /categories/实践方向/道祖之道/ || fas fa-pen-nib
-    道论研习: /categories/道论/ || fas fa-comments
-    参考资源: /categories/参考/ || fas fa-bookmark
+    哲学之道: /categories/practice/philosophy/ || fas fa-brain
+    科学之道: /categories/practice/science/ || fas fa-flask
+    技术之道: /categories/practice/technology/ || fas fa-code
+    道祖之道: /categories/practice/daozu/ || fas fa-pen-nib
+    道论研习: /categories/discussion/ || fas fa-comments
+    参考资源: /categories/reference/ || fas fa-bookmark
   
   # 辅助功能
   全部文章: /archives/ || fas fa-archive
