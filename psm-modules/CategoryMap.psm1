@@ -1,0 +1,279 @@
+# 分类映射管理模块 - 修复路径版
+
+# 获取脚本当前目录
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$rootDir = Split-Path -Parent $scriptDir
+
+# 设置文件路径（相对于项目根目录）
+$script:jsonFilePath = Join-Path $rootDir "category_map.json"
+$script:yamlConfigPath = Join-Path $rootDir "_config.yml"
+
+$script:VerboseOutput = $false  # 默认不输出详细日志
+
+Write-Verbose "模块路径: $scriptDir"
+Write-Verbose "项目根目录: $rootDir"
+Write-Verbose "JSON文件路径: $script:jsonFilePath"
+Write-Verbose "YAML文件路径: $script:yamlConfigPath"
+
+function Get-CategoryMapFromYaml {
+
+    if ($script:VerboseOutput) {
+        Write-Host "📄 从 YAML 文件加载分类映射..." -ForegroundColor Gray
+        Write-Host "   文件路径: $script:yamlConfigPath" -ForegroundColor DarkGray
+    }
+
+    
+    if (-not (Test-Path $script:yamlConfigPath)) {
+        Write-Host "❌ 配置文件不存在: $script:yamlConfigPath" -ForegroundColor Red
+        return @{}
+    }
+    
+    try {
+        # 读取文件内容
+        $content = Get-Content $script:yamlConfigPath -Raw
+        Write-Verbose "文件大小: $($content.Length) 字符"
+        
+        $categoryMap = @{}
+        $foundCount = 0
+        
+        # 调试：显示前200个字符
+        if ($content.Length > 200) {
+            Write-Verbose "文件前200字符: $($content.Substring(0, 200))"
+        }
+        
+        # 查找 category_map 部分
+        if ($content -match '(?sm)category_map:(.*?)(?=\n[^\s#]|\Z)') {
+            $mapSection = $matches[1]
+            Write-Verbose "找到 category_map 配置段"
+            Write-Verbose "配置段内容: $mapSection"
+            
+            # 解析每一行
+            $lines = $mapSection -split "`n"
+            foreach ($line in $lines) {
+                $line = $line.Trim()
+                
+                # 跳过注释行和空行
+                if ($line -and $line -notmatch '^\s*#') {
+                    # 匹配键值对
+                    if ($line -match '^\s*([^#:]+?)\s*:\s*([^#\s]+)') {
+                        $key = $matches[1].Trim()
+                        $value = $matches[2].Trim()
+                        
+                        # 确保不是空键值，且不是 category_map 本身
+                        if ($key -and $value) { 
+                            $categoryMap[$key] = $value
+                            $foundCount++
+                            if ($script:VerboseOutput) {
+                                Write-Host "   映射: $key → $value" -ForegroundColor Green
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            Write-Host "❌ 未找到 category_map 配置段" -ForegroundColor Red
+            
+            # 尝试逐行查找
+            Write-Host "   尝试逐行查找 category_map..." -ForegroundColor Yellow
+            $lines = $content -split "`n"
+            $inCategoryMap = $false
+            
+            foreach ($line in $lines) {
+                if ($line.Trim() -eq 'category_map:') {
+                    $inCategoryMap = $true
+                    continue
+                }
+                
+                # 结束条件：遇到新的顶级配置项（不以空格开头）
+                if ($inCategoryMap -and $line -match '^\S' -and $line.Trim() -notmatch '^\s*#') {
+                    $inCategoryMap = $false
+                    continue
+                }
+                
+                # 在category_map范围内解析键值对
+                if ($inCategoryMap -and $line -match '^\s*([^#:]+?)\s*:\s*([^#\s]+)') {
+                    $key = $matches[1].Trim()
+                    $value = $matches[2].Trim()
+                    
+                    if ($key -and $value) {
+                        $categoryMap[$key] = $value
+                        $foundCount++
+                        if ($script:VerboseOutput) {
+                            Write-Host "   映射: $key → $value" -ForegroundColor Green
+                        }
+                    }
+                }
+            }
+        }
+        
+        if ($foundCount -gt 0) {
+            if ($script:VerboseOutput) {
+                Write-Host "✅ 从 YAML 文件加载了 $foundCount 个分类映射" -ForegroundColor Green
+            }
+            return $categoryMap
+        } else {
+            Write-Host "⚠️  从 YAML 文件未找到分类映射" -ForegroundColor Yellow
+            return @{}
+        }
+    }
+    catch {
+        Write-Host "❌ 解析 YAML 文件时出错: $_" -ForegroundColor Red
+        return @{}
+    }
+}
+
+function Get-CategoryMapFromJson {
+    if ($script:VerboseOutput) {
+        Write-Host "📄 从 JSON 文件加载分类映射..." -ForegroundColor Gray
+        Write-Host "   文件路径: $script:jsonFilePath" -ForegroundColor DarkGray
+    }
+    
+    if (-not (Test-Path $script:jsonFilePath)) {
+        Write-Host "📄 JSON 文件不存在: $script:jsonFilePath" -ForegroundColor Gray
+        return @{}
+    }
+    
+    try {
+        $jsonContent = Get-Content $script:jsonFilePath -Raw
+        if ([string]::IsNullOrWhiteSpace($jsonContent)) {
+            Write-Host "⚠️  JSON 文件为空" -ForegroundColor Yellow
+            return @{}
+        }
+        
+        # 移除注释行
+        $cleanContent = $jsonContent -replace '(?m)^\s*#.*\n?', ''
+        
+        $jsonMap = $cleanContent | ConvertFrom-Json -AsHashtable
+        
+        if ($jsonMap -and $jsonMap.Count -gt 0) {
+            if ($script:VerboseOutput) {
+                Write-Host "✅ 从 JSON 文件加载了 $($jsonMap.Count) 个分类映射" -ForegroundColor Green
+            }
+            
+            return $jsonMap
+        } else {
+            Write-Host "⚠️  JSON 文件没有有效数据" -ForegroundColor Yellow
+            return @{}
+        }
+    }
+    catch {
+        Write-Host "❌ 解析 JSON 文件时出错: $_" -ForegroundColor Red
+        return @{}
+    }
+}
+
+function Save-CategoryMapToJson {
+    param(
+        [Parameter(Mandatory=$true)]
+        [hashtable]$CategoryMap,
+        [switch]$Force = $false
+    )
+    
+    if ($CategoryMap.Count -eq 0 -and -not $Force) {
+        Write-Host "⚠️  没有映射数据可保存" -ForegroundColor Yellow
+        return $false
+    }
+    
+    try {
+        # 将 Hashtable 转换为有序对象以便美观输出
+        $orderedMap = [ordered]@{}
+        $CategoryMap.Keys | Sort-Object | ForEach-Object {
+            $orderedMap[$_] = $CategoryMap[$_]
+        }
+        
+        $jsonContent = $orderedMap | ConvertTo-Json -Depth 10
+        
+        # 添加注释和格式
+        $fullContent = @"
+# 《意识之道》分类映射文件
+# 此文件自动生成，请勿手动修改
+# 原始数据来自 _config.yml 的 category_map 部分
+# 生成时间: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+
+$jsonContent
+"@
+        
+        Set-Content -Path $script:jsonFilePath -Value $fullContent -Encoding UTF8
+        Write-Host "💾 已保存 $($CategoryMap.Count) 个映射到 $script:jsonFilePath" -ForegroundColor Green
+        
+        return $true
+    }
+    catch {
+        Write-Host "❌ 保存 JSON 文件时出错: $_" -ForegroundColor Red
+        return $false
+    }
+}
+
+function Get-CategoryMap {
+    [CmdletBinding()]
+    param(
+        [switch]$Silent = $false
+    )
+    $script:VerboseOutput = -not $Silent
+    # 首先尝试从 YAML 加载
+    $yamlMap = Get-CategoryMapFromYaml
+    
+    if ($yamlMap.Count -gt 0) {
+
+        if($script:VerboseOutput) {
+            Write-Host "✅ 成功从 _config.yml 加载分类映射" -ForegroundColor Green
+        }
+          
+        # 检查 JSON 文件是否存在
+        $jsonMap = Get-CategoryMapFromJson
+        
+        if ($jsonMap.Count -eq 0) {
+            # JSON 文件不存在或为空，创建新文件
+            Write-Host "📝 创建新的 JSON 映射文件..." -ForegroundColor Yellow
+            Save-CategoryMapToJson -CategoryMap $yamlMap | Out-Null
+        }
+        
+        return $yamlMap
+    }
+    else {
+        # YAML 加载失败，尝试从 JSON 加载
+        Write-Host "⚠️  无法从 _config.yml 加载映射，尝试 JSON 文件..." -ForegroundColor Yellow
+        
+        $jsonMap = Get-CategoryMapFromJson
+        
+        if ($jsonMap.Count -gt 0) {
+            Write-Host "✅ 从 JSON 文件成功加载分类映射" -ForegroundColor Green
+            return $jsonMap
+        }
+        else {
+            # 两者都失败，创建默认映射
+            Write-Host "❌ 无法从任何源加载分类映射" -ForegroundColor Red
+            Write-Host "📝 正在创建默认映射文件..." -ForegroundColor Yellow
+            
+            $defaultMap = @{
+                '道经卷' = 'dao-scripture'
+                '法则篇' = 'principles'
+                '道演篇' = 'evolution'
+                '道境卷' = 'dao-state'
+                '道境之门' = 'gate'
+                '境界论述' = 'state-discussion'
+                '实修根本' = 'foundation'
+                '实修经' = 'scripture'
+                '实修理术' = 'methods'
+                '实践方向' = 'practice'
+                '哲学之道' = 'philosophy'
+                '科学之道' = 'science'
+                '技术之道' = 'technology'
+                '道祖之道' = 'daozu'
+                '道论' = 'discussion'
+                '参考' = 'reference'
+                '网站构建' = 'website-build'
+            }
+            
+            # 创建 JSON 文件
+            Save-CategoryMapToJson -CategoryMap $defaultMap | Out-Null
+            Write-Host "📄 已创建默认映射文件，请根据实际情况修改" -ForegroundColor Green
+            
+            return $defaultMap
+        }
+    }
+}
+
+Export-ModuleMember -Function Get-CategoryMap

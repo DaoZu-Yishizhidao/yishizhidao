@@ -69,8 +69,9 @@ index_generator:
 
 # Category & Tag
 default_category: uncategorized
+# ==================== 分类映射开始 ====================
 category_map: 
-    # 道经卷
+  # 道经卷
   道经卷: dao-scripture
   法则篇: principles
   道演篇: evolution
@@ -93,6 +94,8 @@ category_map:
   # 其他
   道论: discussion
   参考: reference
+  网站构建: website-build
+  # ==================== 分类映射结束 ====================
 tag_map:
 
 # Metadata elements

@@ -1,0 +1,126 @@
+# 路径转换模块
+# 功能：将中文路径转换为英文别名路径
+
+# 将相对路径转换为英文别名
+function Convert-PathToEnglish {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$RelativePath,
+        
+        [Parameter(Mandatory=$true)]
+        [hashtable]$CategoryMap
+    )
+    
+    if ([string]::IsNullOrWhiteSpace($RelativePath)) {
+        return $RelativePath
+    }
+    
+    $parts = $RelativePath -split '/'
+    $convertedParts = @()
+    
+    foreach ($part in $parts) {
+        if ($CategoryMap.ContainsKey($part)) {
+            # 如果映射表中存在这个部分，转换为英文
+            $convertedParts += $CategoryMap[$part]
+        } else {
+            # 否则保留原样
+            $convertedParts += $part
+        }
+    }
+    
+    return $convertedParts -join '/'
+}
+
+# 批量转换路径列表
+function Convert-PathsToEnglish {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [string[]]$Paths,
+        
+        [Parameter(Mandatory=$true)]
+        [hashtable]$CategoryMap
+    )
+    
+    $convertedPaths = @()
+    
+    foreach ($path in $Paths) {
+        $convertedPath = Convert-PathToEnglish -RelativePath $path -CategoryMap $CategoryMap
+        $convertedPaths += $convertedPath
+    }
+    
+    return $convertedPaths
+}
+
+# 显示路径转换结果
+function Show-PathConversion {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [string[]]$Paths,
+        
+        [Parameter(Mandatory=$true)]
+        [hashtable]$CategoryMap
+    )
+    
+    Write-Host "📁 原始路径 (中文):" -ForegroundColor Yellow
+    $Paths | ForEach-Object { Write-Host "  • $_" -ForegroundColor Gray }
+    
+    Write-Host "`n🔤 转换路径 (英文):" -ForegroundColor Cyan
+    $convertedPaths = Convert-PathsToEnglish -Paths $Paths -CategoryMap $CategoryMap
+    $convertedPaths | ForEach-Object { Write-Host "  • $_" -ForegroundColor Cyan }
+    
+    # 显示使用的映射关系
+    Write-Host "`n📋 使用的分类映射:" -ForegroundColor DarkGray
+    $Paths | ForEach-Object {
+        $parts = $_ -split '/'
+        foreach ($part in $parts) {
+            if ($CategoryMap.ContainsKey($part)) {
+                Write-Host "    $part → $($CategoryMap[$part])" -ForegroundColor DarkGray
+            }
+        }
+    }
+    
+    return $convertedPaths
+}
+
+# 显示可用的分类映射
+function Show-AvailableCategoryMaps {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [hashtable]$CategoryMap
+    )
+    
+    if ($CategoryMap.Count -eq 0) {
+        Write-Host "📋 没有可用的分类映射" -ForegroundColor Yellow
+        return
+    }
+    
+    Write-Host "📋 可用的分类映射 (共 $($CategoryMap.Count) 个):" -ForegroundColor Yellow
+    
+    # 按分组显示
+    $groups = @{
+        "道经卷" = $CategoryMap.Keys | Where-Object { $_ -match "^道经卷|法则篇|道演篇" }
+        "道境卷" = $CategoryMap.Keys | Where-Object { $_ -match "^道境卷|道境之门|境界论述|实修根本|实修经|实修理术" }
+        "实践方向" = $CategoryMap.Keys | Where-Object { $_ -match "^实践方向|哲学之道|科学之道|技术之道|道祖之道" }
+        "其他" = $CategoryMap.Keys | Where-Object { $_ -notmatch "^道经卷|道境卷|实践方向" }
+    }
+    
+    foreach ($groupKey in $groups.Keys) {
+        if ($groups[$groupKey].Count -gt 0) {
+            Write-Host "`n  ${groupKey} ($($groups[$groupKey].Count) 个):" -ForegroundColor Cyan
+            $groups[$groupKey] | Sort-Object | ForEach-Object {
+                Write-Host "    • $_ → $($CategoryMap[$_])" -ForegroundColor DarkGray
+            }
+        }
+    }
+}
+
+# 导出模块函数
+Export-ModuleMember -Function `
+    Convert-PathToEnglish,
+    Convert-PathsToEnglish,
+    Show-PathConversion,
+    Show-AvailableCategoryMaps
