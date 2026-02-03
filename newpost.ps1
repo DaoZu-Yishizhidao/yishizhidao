@@ -79,7 +79,7 @@ if ($categoryMap.Count -eq 0) {
 if($ShowDetails){
     Write-Host "🔍 扫描文章目录..." -ForegroundColor Gray
 }
-$tree = Show-FolderTree -RootPath "source/_posts"
+$tree = Show-FolderTree -RootPath "source/_posts" -Silent:(!$ShowDetails)
 
 if (-not $tree) {
     Write-Host "❌ 无法扫描目录结构" -ForegroundColor Red

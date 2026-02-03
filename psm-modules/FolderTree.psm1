@@ -1,12 +1,13 @@
 # 文件夹扫描模块
 # 功能：扫描指定目录并返回文件夹树结构
 
+$script:VerboseOutput = $false  # 默认不输出详细日志
+
 # 扫描指定目录并创建文件夹树对象
 function Get-FolderTree {
     [CmdletBinding()]
     param(
-        [string]$RootPath = "source/_posts",
-        [switch]$Silent = $false
+        [string]$RootPath = "source/_posts"
     )
     
     # 确保根路径存在
@@ -20,9 +21,9 @@ function Get-FolderTree {
     if (-not $rootFullPath.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
         $rootFullPath += [System.IO.Path]::DirectorySeparatorChar
     }
-    
-    Write-Verbose "扫描目录: $rootFullPath"
-    
+    if($script:VerboseOutput){
+        Write-Verbose "扫描目录: $rootFullPath"
+    }
     # 扫描所有文件夹
     $allFolders = @()
     
@@ -41,8 +42,10 @@ function Get-FolderTree {
                 $allFolders += $relativePath
             }
         }
-        
-        Write-Verbose "找到 $($allFolders.Count) 个文件夹"
+        if($script:VerboseOutput){
+            Write-Verbose "找到 $($allFolders.Count) 个文件夹"
+        }
+       
         
         # 创建文件夹树对象
         $treeObject = [PSCustomObject]@{
@@ -84,16 +87,21 @@ function Show-FolderTree {
     param(
         [Parameter(Position=0)]
         [string]$RootPath = "source/_posts",
-        
+        [switch]$Silent = $false,
         [switch]$ShowSample = $false,
         [int]$SampleCount = 5
     )
     
+    $script:VerboseOutput = -not $Silent
+
     $tree = Get-FolderTree -RootPath $RootPath
     
     if ($tree) {
-        Write-Host "📁 扫描目录: $($tree.RootFullPath)" -ForegroundColor Gray
-        Write-Host "📊 找到 $($tree.AllFolders.Count) 个文件夹" -ForegroundColor Green
+        if($script:VerboseOutput){
+            Write-Host "📁 扫描目录: $($tree.RootFullPath)" -ForegroundColor Gray
+            Write-Host "📊 找到 $($tree.AllFolders.Count) 个文件夹" -ForegroundColor Green
+        }
+
         
         if ($ShowSample -and $tree.AllFolders.Count -gt 0) {
             Write-Host "📋 示例文件夹 ($SampleCount 个):" -ForegroundColor Gray
