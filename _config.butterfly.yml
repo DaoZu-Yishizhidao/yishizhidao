@@ -142,7 +142,7 @@ menu:
   
   # 实践记录（持续性文章）
   道行实践||fas fa-list||hide:
-    #实践方向||fas fa-compass||hide:
+    #实践方向||fas fa-compass||hide: 
     道祖引道: /categories/practice/index/ || fas fa-hand-point-right
     哲学之道: /categories/practice/philosophy/index/ || fas fa-brain
     科学之道: /categories/practice/science/index/ || fas fa-flask

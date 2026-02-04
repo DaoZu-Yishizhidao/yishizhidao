@@ -51,9 +51,25 @@ if ($foundFolders.Count -gt 1) {
 
 if ($foundFolders -and $foundFolders.Count -gt 0) {
 
-    $categories=$foundFolders
-    $categories=$categories.Replace($tree.GetSubfolders("")+"/","[")
-    $categories=$categories.Replace("/",",")+"]"
+   # $categories=$foundFolders
+   # $categories=$categories.Replace($tree.GetSubfolders("")+"/","[")
+   # $categories=$categories.Replace("/",",")+"]"
+    $folderParts = $foundFolders -split '/'
+    $categoriesArray = @()
+     $folderParts   
+    # 为每个层级创建分类,除去根节点categonries
+    for ($i = 1; $i -lt $folderParts.Count; $i++) {
+        $path = $folderParts[0..$i] -join '/'
+        if ($categoryMap.ContainsKey($folderParts[$i])) {
+            $categoriesArray += $categoryMap[$folderParts[$i]]
+        } else {
+            $categoriesArray += $folderParts[$i]
+        }
+    }
+    
+    # 构建分类字符串
+    $categories = "[$($foundFolders -join ',')]"
+
     $categories
     $permalink=Convert-PathsToEnglish -Paths $foundFolders -CategoryMap $CategoryMap
     
@@ -66,7 +82,7 @@ if ($foundFolders -and $foundFolders.Count -gt 0) {
         (Get-Content $newpostPath) -replace "permalink:", "permalink: $permalink/$posturl/" | Set-Content $newpostPath
         (Get-Content $newpostPath) -replace "categories:", "categories: $categories" | Set-Content $newpostPath
 
-        hexo new newpost --path "$foundFolders/$title" $title
+       # hexo new newpost --path "$foundFolders/$title" $title
         Write-Host "✅成功创建标题为'$title'的文章，路径为：$foundFolders/$title"
     }
 }

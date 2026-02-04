@@ -67,6 +67,7 @@ index_generator:
   per_page: 10
   order_by: -date
 
+
 # Category & Tag
 default_category: uncategorized
 # ==================== 分类映射开始 ====================

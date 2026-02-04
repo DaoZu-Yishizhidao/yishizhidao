@@ -1,9 +1,16 @@
 mixin indexPostUI()
   - const indexLayout = theme.index_layout
   - const masonryLayoutClass = (indexLayout === 6 || indexLayout === 7) ? 'masonry' : ''
+  //自定义内容，文章是否在主页显示
+  - const allVisiblePosts = site.posts.toArray().filter(post => !post.hide)
+  - page.total = Math.ceil(allVisiblePosts.length/10)
+  //p 总文章数: #{allVisiblePosts.length}
+  //p page.total: #{page.total}
+  //变量更换：page.posts.data更换allVisiblePosts
+  //自定义内容结束
   #recent-posts.recent-posts.nc(class=masonryLayoutClass)
     .recent-post-items
-      each article, index in page.posts.data
+      each article, index in allVisiblePosts
         .recent-post-item
           - const link = article.link || article.path
           - const title = article.title || _p('no_title')
