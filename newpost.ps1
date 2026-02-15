@@ -5,9 +5,9 @@
 ### 编程语言：PowerShell
 ### 功能：创建新文章时自动分类与自动保存至相应的分类文件夹下
 ### 作者：道祖
-### 版本：v1.01 
+### 版本：v1.02 
 ### 日期：2026-02-04 00：10
-### 更新日期：2026-02-09 02：39
+### 更新日期：2026-02-16 01：35
 # ============================================
 
 
@@ -18,7 +18,10 @@ param(
     
     [Parameter(Mandatory=$false, Position=1)]
     [string]$title,
-    
+
+    [Parameter(Mandatory=$false)]
+    [string]$writedate,
+
     [Parameter(Mandatory=$false)]
     [switch]$ShowDetails
 )
@@ -132,13 +135,39 @@ function Get-foundFolder {
 
 }
 
+# 获取自定写作时间
+function Get-WriteDate{
+    if (-not [string]::IsNullOrEmpty($writedate)) {
+        if ($writedate.Length -ne 12 -or $writedate -notmatch '^\d+$') {
+            Write-Error "参数格式错误：必须为12位数字 (yyyyMMddHHmm)"
+            exit 1
+        }
+        try {
+            # 解析为 DateTime 对象
+            $date= [datetime]::ParseExact($writedate, "yyyyMMddHHmm", $null)
+            $writingDate=$date.AddHours(-8).ToString("yyyy-MM-dd HH:mm:ss")
+            return $date,$writingDate
+        } catch {
+            Write-Error "无效的日期时间值：$writedate"
+            exit 1
+        }
+    }else{
+        $writingDate="{{ date }}"
+        $date=Get-Date
+        return $date,$writingDate
+    }
+}
+
 
 # 获取文章信息，处理 Front-matter
 function Get-PostInfo {
+
+
+    $now,$writingDate = Get-WriteDate
+
     # 处理文章标题
     # 若标题为空，则以日期为标题
-    if ([string]::IsNullOrEmpty($title)) {
-        $now = Get-Date
+    if ([string]::IsNullOrEmpty($title)) {    
         $title = "$($now.Year)年$($now.Month)月$($now.Day)日$($now.Hour)时$($now.Minute)分"
         Write-Host "默认标题: $title" -ForegroundColor Yellow
     }
@@ -176,7 +205,10 @@ function Get-PostInfo {
     # 默认首页不显示，自定义字段
     $hide = "hide: ture"
 
-    return $foundFolder,$PostTitle,$categories,$permalinkPath,$hide
+    # 写作日期
+
+    #$writingDate = $now.AddHours(-8).ToString("yyyy-MM-dd HH:mm:ss")
+    return $foundFolder,$PostTitle,$categories,$permalinkPath,$hide,$writingDate
 }
 
 
@@ -184,6 +216,7 @@ function Get-PostInfo {
 function Set-ProcScaffold {
     param(
         [string]$PostTitle,
+        [string]$writingDate,
         [string]$categories,
         [string]$permalinkPath,
         [string]$hide
@@ -206,7 +239,9 @@ function Set-ProcScaffold {
         if ($templateContent -match 'title:\s*{{ title }}') {
             $templateContent = $templateContent -replace 'title:\s*{{ title }}', "title: $PostTitle"
         }
-
+        if ($templateContent -match 'writing_date:\s*.*') {
+            $templateContent = $templateContent -replace 'writing_date:\s*.*', "writing_date: $writingDate"
+        }
         # 替换categories
         if ($templateContent -match 'categories:\s*.*') {
             $templateContent = $templateContent -replace 'categories:\s*.*', "$categories"
@@ -288,8 +323,8 @@ function Set-NewPost{
 
 
 
-$foundFolder,$PostTitle,$categories,$permalinkPath,$hide=Get-PostInfo
-$newTemplatePath=Set-ProcScaffold -PostTitle:($PostTitle) -categories:($categories) -permalinkPath:($permalinkPath) -hide:($hide)
+$foundFolder,$PostTitle,$categories,$permalinkPath,$hide,$writingDate=Get-PostInfo
+$newTemplatePath=Set-ProcScaffold -PostTitle:($PostTitle) -categories:($categories) -permalinkPath:($permalinkPath) -hide:($hide) -writingDate:($writingDate)
 Set-NewPost -foundFolder:($foundFolder) -PostTitle:($PostTitle)
 
 

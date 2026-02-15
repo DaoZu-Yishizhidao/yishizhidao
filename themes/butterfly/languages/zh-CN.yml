@@ -18,7 +18,7 @@ card_post_count: 条评论
 no_title: 无标题
 
 post:
-  created: 发表于
+  created: 创建于
   updated: 更新于
   wordcount: 总字数
   min2read: 阅读时长
