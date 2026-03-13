@@ -1,8 +1,13 @@
 mixin articleSort(posts)
   .article-sort
     - let year
+    - posts.sort((a, b) => {
+    - const aVal = a.writing_date || a.date;
+    - const bVal = b.writing_date || b.date;
+    - return bVal - aVal; // 降序，最新在前
+    - });
     - posts.forEach(article => {
-      - const tempYear = date(article.writing_date, 'YYYY')
+      - const tempYear = date(article.date, 'YYYY')
       - const noCoverClass = article.cover === false || !theme.cover.archives_enable ? 'no-article-cover' : ''
       - const title = article.title || _p('no_title')
       if tempYear !== year
@@ -18,6 +23,6 @@ mixin articleSort(posts)
         .article-sort-item-info
           .article-sort-item-time
             i.far.fa-calendar-alt
-            time.post-meta-date-created(datetime=date_xml(article.date) title=_p('post.created') + ' ' + full_date(article.writing_date))= date(article.date, config.date_format)
+            time.post-meta-date-created(datetime=date_xml(article.date) title=_p('post.created') + ' ' + full_date(article.date))= date(article.date, config.date_format)
           a.article-sort-item-title(href=url_for(article.path) title=title)= title
     - })
