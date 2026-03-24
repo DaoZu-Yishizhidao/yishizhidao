@@ -4,6 +4,9 @@ hexo.extend.helper.register('aside_archives', function (options = {}) {
   const { config, page, site, url_for: urlFor, _p } = this
   const { archive_dir: archiveDir, timezone, language } = config
 
+  // 新增：支持按 writing_date 归档
+  const dateField = options.date_field === 'writing_date' ? 'writing_date' : 'date';
+
   // Destructure and set default options with object destructuring
   const {
     type = 'monthly',
@@ -22,22 +25,25 @@ hexo.extend.helper.register('aside_archives', function (options = {}) {
 
   const archives = new Map()
   site.posts.forEach(post => {
-    const date = post.date
-    const year = date.year()
-    const month = date.month() + 1
-    const key = type === 'yearly' ? year : `${year}-${month}`
+    // 兼容 moment 对象和字符串
+    let date = post[dateField];
+    if (!date) return;
+    if (typeof date === 'string') date = this.moment(date);
+    const year = date.year();
+    const month = date.month() + 1;
+    const key = type === 'yearly' ? year : `${year}-${month}`;
 
     if (archives.has(key)) {
-      archives.get(key).count++
+      archives.get(key).count++;
     } else {
       archives.set(key, {
         year,
         month,
         count: 1,
         date // Store date object for later formatting
-      })
+      });
     }
-  })
+  });
 
   const data = Array.from(archives.values()).sort((a, b) => {
     if (order === -1) {
