@@ -69,7 +69,7 @@ try {
 # 5. 推送到远程仓库
 try {
     Write-Host "`n🚀 推送到 GitHub 仓库..." -ForegroundColor Yellow
-    git push origin main
+    git push origin main --force
     
     Write-Host "`n🎉 同步完成！" -ForegroundColor Green
     Write-Host "═" * 40 -ForegroundColor DarkGray
