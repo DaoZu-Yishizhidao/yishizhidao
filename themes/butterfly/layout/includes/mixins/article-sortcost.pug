@@ -1,13 +1,8 @@
 mixin articleSort(posts)
   .article-sort
     - let year
-    - posts.sort((a, b) => {
-    - const aVal = a.writing_date || a.date;
-    - const bVal = b.writing_date || b.date;
-    - return bVal - aVal; // 降序，最新在前
-    - });
     - posts.forEach(article => {
-      - const tempYear = date(article.date, 'YYYY')
+      - const tempYear = date(article.writing_date, 'YYYY')
       - const noCoverClass = article.cover === false || !theme.cover.archives_enable ? 'no-article-cover' : ''
       - const title = article.title || _p('no_title')
       if tempYear !== year
