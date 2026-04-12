@@ -29,6 +29,7 @@ inject:
     # FontAwesome - 移除integrity，修正本地路径
     - |
       <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
+      <link rel="stylesheet" href="/css/catalog.css"> <!-- 注入自定义CSS -->
 
 
 # ==================== 功能配置 ====================

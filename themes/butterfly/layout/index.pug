@@ -1,5 +1,32 @@
 extends includes/layout.pug
 
 block content
-  include ./includes/mixins/indexPostUI.pug
-  +indexPostUI
+  #recent-posts.recent-posts.nc(class=masonryLayoutClass)
+    .catalog-card
+        .catalog-card-title 道经卷
+          each category in site.categories.data
+            if category.name === '道经卷'
+              each post in category.posts.sort('date', -1).toArray()
+                a.post-link(href=url_for(post.path))
+                  span.post-title= post.title
+                  span.post-date= date(post.date, 'YYYY-MM-DD')
+
+
+    .catalog-card
+        .catalog-card-title 道行卷
+          each category in site.categories.data
+            if category.name === '实践方向'
+              each post in category.posts.sort('date', -1).toArray()
+                a.post-link(href=url_for(post.path))
+                  span.post-title= post.title
+                  span.post-date= date(post.date, 'YYYY-MM-DD')
+
+    .catalog-card
+        .catalog-card-title 道境卷
+          each category in site.categories.data
+            if category.name === '道境卷'
+              each post in category.posts.sort('date', -1).toArray()
+                a.post-link(href=url_for(post.path))
+                  span.post-title= post.title
+                  span.post-date= date(post.date, 'YYYY-MM-DD')
+    

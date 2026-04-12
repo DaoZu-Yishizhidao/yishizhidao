@@ -68,6 +68,8 @@ index_generator:
   order_by: -date
 
 
+
+
 # Category & Tag
 default_category: uncategorized
 # ==================== 分类映射开始 ====================
@@ -86,7 +88,7 @@ category_map:
   实修理术: methods
   
   # 实践方向
-  实践方向: practice
+  道行卷: practice
   哲学之道: philosophy
   科学之道: science
   技术之道: technology
