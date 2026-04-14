@@ -1,25 +1,59 @@
 extends includes/layout.pug
 
 block content
-  #recent-posts.recent-posts.nc(class=masonryLayoutClass)
+  #catalog-homepage.catalog-homepage.nc(class=masonryLayoutClass)
     .catalog-card
         .catalog-card-title 道经卷
-          each category in site.categories.data
-            if category.name === '道经卷'
-              each post in category.posts.sort('date', -1).toArray()
-                a.post-link(href=url_for(post.path))
-                  span.post-title= post.title
-                  span.post-date= date(post.date, 'YYYY-MM-DD')
-
+          .catalog-card-content
+            details.toggle(open)
+              summary.toggle-button(style="") 法则篇
+              .toggle-content
+                each category in site.categories.data
+                  if category.name === '法则篇'
+                    each post in category.posts.sort('date', -1).toArray()
+                      a.post-link(href=url_for(post.path))
+                        span.post-title= post.title
+                        span.post-date= date(post.date, 'YYYY-MM-DD')
+            details.toggle(open)
+              summary.toggle-button(style="") 道演篇
+              .toggle-content
+                each category in site.categories.data
+                  if category.name === '道演篇'
+                    each post in category.posts.sort('date', -1).toArray()
+                      a.post-link(href=url_for(post.path))
+                        span.post-title= post.title
+                        span.post-date= date(post.date, 'YYYY-MM-DD')
 
     .catalog-card
         .catalog-card-title 道行卷
-          each category in site.categories.data
-            if category.name === '实践方向'
-              each post in category.posts.sort('date', -1).toArray()
-                a.post-link(href=url_for(post.path))
-                  span.post-title= post.title
-                  span.post-date= date(post.date, 'YYYY-MM-DD')
+          .catalog-card-content
+            details.toggle(open)
+              summary.toggle-button(style="") 道论
+              .toggle-content
+                each category in site.categories.data
+                  if category.name === '道论'
+                    each post in category.posts.sort('date', -1).toArray()
+                      a.post-link(href=url_for(post.path))
+                        span.post-title= post.title
+                        span.post-date= date(post.date, 'YYYY-MM-DD')
+            details.toggle(open)
+              summary.toggle-button(style="") 技术之道
+              .toggle-content
+                each category in site.categories.data
+                  if category.name == '技术之道'
+                    each post in category.posts.sort('date', -1).toArray()
+                      a.post-link(href=url_for(post.path))
+                        span.post-title= post.title
+                        span.post-date= date(post.date, 'YYYY-MM-DD')            
+            details.toggle
+              summary.toggle-button(style="") 道祖之道
+              .toggle-content
+                each category in site.categories.data
+                  if category.name === '道祖之道'
+                    each post in category.posts.sort('date', -1).toArray()
+                      a.post-link(href=url_for(post.path))
+                        span.post-title= post.title
+                        span.post-date= date(post.date, 'YYYY-MM-DD')
 
     .catalog-card
         .catalog-card-title 道境卷
