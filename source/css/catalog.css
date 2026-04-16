@@ -2,7 +2,6 @@
 #catalog-homepage {
   max-width: 100%;
   margin: 0 auto;
-  padding: 3rem 2rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
@@ -12,7 +11,7 @@
 @media (max-width: 900px) {
   #catalog-homepage {
     grid-template-columns: 1fr;
-    padding: 2rem 1.5rem;
+    display: contents;
   }
 }
 
@@ -24,10 +23,10 @@
 /* ========== 卡片样式 ========== */
 .catalog-card {
   background: #fff;
-  border-radius: 20px;
+  border-radius: 8px;
   max-width: 100%;
-  height: auto;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+  box-shadow: var(--card-box-shadow);
   padding: 1.8rem 1.5rem;
   transition: all 0.25s ease;
   border: 1px solid rgba(0, 0, 0, 0.03);
@@ -71,10 +70,10 @@
 
 /* ========== 文章链接列表 ========== */
 .catalog-card .post-link {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 0.7rem 0;
+  display: grid;
+
+  padding: 0.3rem 0;
+  font-size: var(--global-font-size);
   text-decoration: none;
   color: #34495e;
   border-bottom: 1px dashed #e0e0e0;
@@ -91,7 +90,7 @@
 }
 
 .catalog-card .post-title {
-  font-size: 1rem;
+  
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -100,9 +99,10 @@
 }
 
 .catalog-card .post-date {
-  font-size: 0.8rem;
-  color: #95a5a6;
+  font-size: 0.85em;
+  color: var(--card-meta);
   font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  justify-self: end;
 }
 
 /* ========== 暗色模式适配 ========== */

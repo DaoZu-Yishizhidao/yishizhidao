@@ -53,7 +53,7 @@ block content
                     each post in category.posts.sort('date', -1).toArray()
                       a.post-link(href=url_for(post.path))
                         span.post-title= post.title
-                        span.post-date= date(post.date, 'YYYY-MM-DD')
+
 
     .catalog-card
         .catalog-card-title 道境卷
