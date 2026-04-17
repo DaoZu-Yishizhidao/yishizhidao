@@ -1,9 +1,8 @@
 extends includes/layout.pug
 
 block content
-
-
-
-
-  include ./includes/mixins/indexPostUI.pug
-  +indexPostUI
+  #catalog-homepage.catalog-homepage.nc(class=masonryLayoutClass)
+    include ./includes/catalogcard.pug
+    +catalogcard('《道经卷》', '道经卷', false)
+    +catalogcard('《道行卷》', '道祖之道',false)
+    +catalogcard('《道境卷》', '道境卷',false)

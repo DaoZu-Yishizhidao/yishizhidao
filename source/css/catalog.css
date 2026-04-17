@@ -7,124 +7,179 @@
   gap: 2rem;
 }
 
-/* 移动端适配 */
 @media (max-width: 900px) {
   #catalog-homepage {
     grid-template-columns: 1fr;
-    display: contents;
+    display: block;
+  }
+  .catalog-card {
+    margin-bottom: 2rem;
   }
 }
 
-.layout:has(> .catalog-homepage) {
-    max-width: 90%;
+/* ========== 修改主题头图与导航 ========== */
+#page-header.full_page,
+#page-header.post-bg,
+#page-header.not-home-page {
+  height: 30vh;
+  background: var(--card-bg);
+  box-shadow: var(--card-box-shadow);
+}
+#page-header.post-bg {
+  height: 36vh;
+}
+#page-header:not(.not-top-img):before {
+  background: var(--card-bg);
+}
+#nav a,
+#nav span.site-page,
+#page-header #site-title,
+#page-header #site-subtitle,
+#page-header #scroll-down .scroll-down-effects,
+#post-info .post-title,
+#post-info #post-meta,
+#post-info #post-meta a {
+  color: var(--font-color);
+}
+#nav a:hover,
+#nav span.site-page:hover {
+  color: #3498db;
 }
 
+/* 页面布局宽度 */
+.layout:has(> #catalog-homepage) {
+  max-width: 90%;
+}
 
 /* ========== 卡片样式 ========== */
 .catalog-card {
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 8px;
-  max-width: 100%;
-  height: fit-content;
+  max-height: 110vh;
   box-shadow: var(--card-box-shadow);
-  padding: 1.8rem 1.5rem;
   transition: all 0.25s ease;
   border: 1px solid rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
+  transition: max-height 0.3s ease;
 }
-
-
-
 .catalog-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-box-shadow);
 }
 
-/* 卡片标题 */
 .catalog-card-title {
   font-size: 2rem;
   font-weight: 600;
-  margin: 0 0 1.5rem 0;
+  text-align: center;
+  background: var(--card-bg);
+  border-radius: 8px 8px 0px 0px;
+  color: var(--font-color);
+  margin: 0;
   padding-bottom: 0.8rem;
   border-bottom: 2px solid;
   letter-spacing: 1px;
 }
-.catalog-card-content{
+
+.catalog-card:hover .catalog-card-title{
+    box-shadow: var(--card-box-shadow); 
+}
+
+
+.catalog-card-content {
   font-size: 1.1rem;
   font-weight: 600;
+  margin: 10px;
+  color: var(--font-color);
+  overflow-y: auto;  /* 内容超出时出现滚动条（可选） */
 }
-/* 三大卷标题颜色区分 */
+
+/* 三大卷标题颜色 */
 .catalog-card:nth-child(1) .catalog-card-title {
-  border-color: #3498db;  /* 道经卷 - 蓝 */
-  color: #2c3e50;
+  border-color: #3498db;
 }
 .catalog-card:nth-child(2) .catalog-card-title {
-  border-color: #e67e22;  /* 道行卷 - 橙 */
-  color: #2c3e50;
+  border-color: #e67e22;
 }
 .catalog-card:nth-child(3) .catalog-card-title {
-  border-color: #9b59b6;  /* 道境卷 - 紫 */
-  color: #2c3e50;
+  border-color: #9b59b6;
+}
+
+/* 折叠面板 */
+.toggle {
+  margin-bottom: 5px;
+  border: 1px solid #e0e0e0;
+}
+
+.toggle > .toggle-button {
+  padding: 2px 10px;
+  background: #ededed;
+  color: var(--font-color);
+  cursor: pointer;
+  user-select: none;
+}
+.toggle[open] > .toggle-button {
+  border-bottom: 1px solid #e0e0e0;
 }
 
 /* ========== 文章链接列表 ========== */
 .catalog-card .post-link {
   display: grid;
-
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 1rem;
   padding: 0.3rem 0;
-  font-size: var(--global-font-size);
   text-decoration: none;
-  color: #34495e;
+  color: var(--font-color);
   border-bottom: 1px dashed #e0e0e0;
   transition: all 0.15s;
 }
-
 .catalog-card .post-link:last-of-type {
   border-bottom: none;
 }
-
 .catalog-card .post-link:hover {
   color: #3498db;
   padding-left: 5px;
 }
-
 .catalog-card .post-title {
-  
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 65%;
 }
-
 .catalog-card .post-date {
   font-size: 0.85em;
   color: var(--card-meta);
   font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-  justify-self: end;
 }
 
 /* ========== 暗色模式适配 ========== */
 [data-theme='dark'] .catalog-card {
-  background: #1e272e;
   border-color: #2c3e50;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
-
-[data-theme='dark'] .catalog-card-title {
-  color: #ecf0f1 !important;
+[data-theme='dark'] .toggle {
+  border-color: #2c3e50;
 }
-
+[data-theme='dark'] .toggle > .toggle-button {
+  background: #2c3e50;
+}
 [data-theme='dark'] .catalog-card .post-link {
-  color: #bdc3c7;
   border-bottom-color: #2c3e50;
 }
-
 [data-theme='dark'] .catalog-card .post-link:hover {
   color: #5dade2;
 }
 
-[data-theme='dark'] .catalog-card .post-date {
-  color: #7f8c8d;
+/* 后备变量（若主题未定义） */
+:root {
+  --card-bg: #fff;
+  --card-box-shadow: 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  --font-color: #2c3e50;
+  --card-meta: #95a5a6;
+}
+[data-theme='dark'] {
+  --card-bg: #1e272e;
+  --card-box-shadow: 0 1px 15px rgb(255 255 255 / 40%);
+  --font-color: #ecf0f1;
+  --card-meta: #7f8c8d;
 }

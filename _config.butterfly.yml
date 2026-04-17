@@ -30,6 +30,10 @@ inject:
     - |
       <link rel="stylesheet" href="/lib/fontawesome/css/all.min.css">
       <link rel="stylesheet" href="/css/catalog.css"> <!-- 注入自定义CSS -->
+  bottom:
+    # 注入自定义JS
+    - |
+      <script src="/js/catalog-toggle.js"></script> <!-- 注入自定义JS -->
 
 
 # ==================== 功能配置 ====================
@@ -64,7 +68,7 @@ readmode:
 
 
 # ==================== 首页配置 ====================
-index_img: /img/home-cover.jpg
+
 index:
   post_url_target: _blank
   post_count: 10

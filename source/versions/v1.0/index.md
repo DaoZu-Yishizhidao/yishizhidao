@@ -1,6 +1,6 @@
 ---
 title: 立道祖
 date: 2026-02-07 22:28:10
-layout: 'index'
+layout: 'yszd'
 ---
 # 立道祖版
