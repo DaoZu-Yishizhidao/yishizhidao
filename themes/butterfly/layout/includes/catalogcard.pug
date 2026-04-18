@@ -1,27 +1,45 @@
-mixin catalogcard(cardtitle, catname,exclusiveToggle = true)
-    - var cardId = 'card-' + Math.random().toString(36).substr(2, 8)
-    - var exclusiveAttr = exclusiveToggle ? 'true' : 'false'
-    .catalog-card(id=cardId data-exclusive-toggle=exclusiveAttr)
-        .catalog-card-title=cardtitle
-        .catalog-card-content
-            - const parentCategory = site.categories.data.find(cat => cat.name === catname)
-            if parentCategory
-                - const subcategories = site.categories.data.filter(cat => cat.parent === parentCategory._id)
-                if subcategories.length > 0
-                    each subcat in subcategories
-                        details.toggle(open)
-                            summary.toggle-button(style="")= subcat.name
-                            .toggle-content
-                                each post in subcat.posts.sort('date', -1).toArray()
-                                    a.post-link(href=url_for(post.path))
-                                        span.post-title= post.title
-                                        span.post-date= date(post.date, 'YYYY-MM-DD')
-                else
-                    details.toggle(open)
-                        summary.toggle-button(style="")= parentCategory.name
-                        .toggle-content
-                            each post in parentCategory.posts.sort('date', -1).toArray()
-                                a.post-link(href=url_for(post.path))
-                                    span.post-title= post.title
-                                    span.post-date= date(post.date, 'YYYY-MM-DD')
+mixin catalogcard(cardtitle, catname, exclusiveToggle = true, dateFilter = {})
+  - var cardId = 'card-' + Math.random().toString(36).substr(2, 8)
+  - var exclusiveAttr = exclusiveToggle ? 'true' : 'false'
+  .catalog-card(id=cardId data-exclusive-toggle=exclusiveAttr)
+    .catalog-card-title= cardtitle
+    .catalog-card-content
+      - const parentCategory = site.categories.data.find(cat => cat.name === catname)
+      if parentCategory
+        - const subcategories = site.categories.data.filter(cat => cat.parent === parentCategory._id)
 
+        //- 日期过滤函数
+        - function shouldInclude(postDate) {
+          - if (!dateFilter.mode) return true;
+          - const postTime = new Date(postDate).getTime();
+          - if (dateFilter.mode === 'after') {
+            - return postTime >= new Date(dateFilter.date).getTime();
+          - } else if (dateFilter.mode === 'before') {
+            - return postTime <= new Date(dateFilter.date).getTime();
+          - } else if (dateFilter.mode === 'between') {
+            - const start = new Date(dateFilter.start).getTime();
+            - const end = new Date(dateFilter.end).getTime();
+            - return postTime >= start && postTime <= end;
+          - }
+          - return true;
+        - }
+
+        if subcategories.length > 0
+          each subcat in subcategories
+            //- 先排序、转数组、再过滤
+            - const filteredPosts = subcat.posts.sort('date', -1).toArray().filter(post => shouldInclude(post.date))
+            if filteredPosts.length > 0
+              details.toggle(open)
+                summary.toggle-button= subcat.name
+                .toggle-content
+                  each post in filteredPosts
+                    a.post-link(href=url_for(post.path))
+                      span.post-title= post.title
+                      span.post-date= date(post.date, 'YYYY-MM-DD')
+        else
+          - const filteredPosts = parentCategory.posts.sort('date', -1).toArray().filter(post => shouldInclude(post.date))
+          if filteredPosts.length > 0
+            each post in filteredPosts
+              a.post-link(href=url_for(post.path))
+                span.post-title= post.title
+                span.post-date= date(post.date, 'YYYY-MM-DD')

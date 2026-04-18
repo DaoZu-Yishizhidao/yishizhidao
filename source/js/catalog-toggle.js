@@ -10,12 +10,13 @@
   // 确保只初始化一次
   if (window.__catalogToggleInitialized) return;
   window.__catalogToggleInitialized = true;
-
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   /**
    * 为单个卡片绑定排他展开逻辑
    * @param {HTMLElement} card - 卡片容器元素
    */
   function bindExclusiveToggle(card) {
+    if(isMobile) card.setAttribute('data-exclusive-toggle', 'true'); // 移动端强制开启排他逻辑
     const exclusive = card.getAttribute('data-exclusive-toggle') === 'true';
     if (!exclusive) return;
 
@@ -33,30 +34,8 @@
     });
   }
 
-  /**
-   * 初始化所有目录卡片
-   */
-  function initCatalogToggles() {
-    const cards = document.querySelectorAll('.catalog-card[data-exclusive-toggle]');
-    cards.forEach(card => bindExclusiveToggle(card));
-  }
-
-  // 页面加载时初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCatalogToggles);
-  } else {
-    initCatalogToggles();
-  }
-
-  // 兼容 Pjax 页面切换（Butterfly 主题使用 Pjax 时）
-  if (typeof window !== 'undefined' && window.addEventListener) {
-    window.addEventListener('pjax:complete', initCatalogToggles);
-  }
-
-
   // 根据屏幕宽度自动调整 details 的展开状态（移动端默认折叠）
   function adaptDetailsForMobile() {
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   document.querySelectorAll('.catalog-card details.toggle').forEach(detail => {
     if (isMobile) {
       // 移动端：移除 open 属性（折叠）
@@ -68,14 +47,38 @@
       }
     }
   });
-}
+  }
+
+  /**
+   * 初始化所有目录卡片
+   */
+  function initCatalogToggles() {
+    const cards = document.querySelectorAll('.catalog-card[data-exclusive-toggle]');
+    cards.forEach(card => bindExclusiveToggle(card));
+  }
+
+  // 页面加载时初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', adaptDetailsForMobile);
+    document.addEventListener('DOMContentLoaded', initCatalogToggles);
+  } else {
+    initCatalogToggles();
+  }
+
+  // 兼容 Pjax 页面切换（Butterfly 主题使用 Pjax 时）
+  if (typeof window !== 'undefined' && window.addEventListener) {
+    window.addEventListener('pjax:complete', initCatalogToggles);
+  }
+
+
+
 
 // 初始化时执行
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', adaptDetailsForMobile);
-} else {
-  adaptDetailsForMobile();
-}
+//if (document.readyState === 'loading') {
+ // document.addEventListener('DOMContentLoaded', adaptDetailsForMobile);
+//} else {
+  //adaptDetailsForMobile();
+//}
 
 // 监听窗口大小变化（可选，若希望旋转设备时也调整）
 window.addEventListener('resize', () => {

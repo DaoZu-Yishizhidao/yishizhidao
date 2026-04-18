@@ -1,8 +1,15 @@
 extends includes/layout.pug
 
 block content
-  #catalog-homepage.catalog-homepage.nc(class=masonryLayoutClass)
-    include ./includes/catalogcard.pug
-    +catalogcard('《道经卷》', '道经卷', false)
-    +catalogcard('《道行卷》', '道祖之道',false)
-    +catalogcard('《道境卷》', '道境卷',false)
+    #catalog-homepage.catalog-homepage.nc(class=masonryLayoutClass)
+      .catalayout
+        .catalayout-header
+          #post
+            article#article-container.container.post-content
+              != page.content
+        .catalayout-content
+          include ./includes/catalogcard.pug
+          - const dateFilter = { mode: 'before', date: '2025-11-20' }
+          +catalogcard('《道经卷》', '道经卷', false,dateFilter)
+          +catalogcard('《道行卷》', '道祖之道',false,dateFilter)
+          +catalogcard('《道境卷》', '道境卷',false,dateFilter)

@@ -221,13 +221,13 @@ footer:
   custom_text: |
     <span class="framework-info">
       <span>
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener" style="color: #f7f7f7; text-decoration: none;" >
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener" class="footer-links" >
           <img src="/img/icp.png" class="icp-icon">苏ICP备2026003166号-1
         </a>
       </span>
       <span class="footer-separator">|</span>
       <span>
-        <a href="https://beian.mps.gov.cn/#/query/webSearch?code=32011602010707" rel="noreferrer" target="_blank" style="color: #f7f7f7; text-decoration: none;">
+        <a href="https://beian.mps.gov.cn/#/query/webSearch?code=32011602010707" rel="noreferrer" target="_blank" class="footer-links">
           <img src="/img/gaicon.png" class="icp-icon">苏公网安备32011602010707号
         </a>
       </span>

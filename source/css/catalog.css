@@ -2,6 +2,25 @@
 #catalog-homepage {
   max-width: 100%;
   margin: 0 auto;
+
+}
+
+.catalayout{
+  max-width: 100%;
+  margin: 0 auto;
+  display: grid;
+}
+
+.catalayout-header{
+  color: var(--font-color);
+  margin-bottom: 2rem;
+  padding: 1rem 1rem;
+  border-radius: 8px;
+  background: var(--card-bg);
+  box-shadow: var(--card-box-shadow);
+}
+.catalayout-content{
+  max-width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
@@ -9,6 +28,10 @@
 
 @media (max-width: 900px) {
   #catalog-homepage {
+    grid-template-columns: 1fr;
+    display: block;
+  }
+  .catalayout-content {
     grid-template-columns: 1fr;
     display: block;
   }
@@ -45,6 +68,13 @@
 #nav span.site-page:hover {
   color: #3498db;
 }
+
+#footer .footer-other{
+  background: var(--card-bg);
+  box-shadow: var(--card-box-shadow);
+}
+
+
 
 /* 页面布局宽度 */
 .layout:has(> #catalog-homepage) {
@@ -87,12 +117,16 @@
 
 
 .catalog-card-content {
+  position: relative;
   font-size: 1.1rem;
   font-weight: 600;
   margin: 10px;
   color: var(--font-color);
   overflow-y: auto;  /* 内容超出时出现滚动条（可选） */
+  transition: max-height 0.3s ease;
 }
+
+
 
 /* 三大卷标题颜色 */
 .catalog-card:nth-child(1) .catalog-card-title {
@@ -117,10 +151,37 @@
   color: var(--font-color);
   cursor: pointer;
   user-select: none;
+
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--card-bg);
+  border-radius: 8px 8px 0px 0px;
+  color: var(--font-color);
+  margin: 0;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid;
+  letter-spacing: 1px;
 }
 .toggle[open] > .toggle-button {
   border-bottom: 1px solid #e0e0e0;
 }
+
+
+#footer a {
+  color: var(--font-color);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+#footer a:hover {
+  color: #3498db;
+  padding-left: 5px;
+
+}
+#footer > * {
+  color: var(--font-color);
+}
+
 
 /* ========== 文章链接列表 ========== */
 .catalog-card .post-link {
