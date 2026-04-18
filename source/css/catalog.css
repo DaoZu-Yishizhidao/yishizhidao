@@ -185,10 +185,11 @@
 
 /* ========== 文章链接列表 ========== */
 .catalog-card .post-link {
+
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.5rem;
   align-items: baseline;
-  gap: 1rem;
   padding: 0.3rem 0;
   text-decoration: none;
   color: var(--font-color);
@@ -213,6 +214,22 @@
   color: var(--card-meta);
   font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
 }
+
+.catalog-card .post-category {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  background: #ecf0f1;
+  padding: 0.1rem 0.4rem;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+[data-theme='dark'] .catalog-card .post-category {
+  background: #2c3e50;
+  color: #bdc3c7;
+}
+
+
+
 
 /* ========== 暗色模式适配 ========== */
 [data-theme='dark'] .catalog-card {

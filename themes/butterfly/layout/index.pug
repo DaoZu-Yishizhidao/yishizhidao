@@ -3,20 +3,10 @@ extends includes/layout.pug
 block content
     #catalog-homepage.catalog-homepage.nc(class=masonryLayoutClass)
       .catalayout
-        .catalayout-header 道祖引道曰：道经卷、道行卷、道境卷，三卷并行，互为表里，道经卷为经文，道行卷为实践，道境卷为境界。三卷相辅相成，共同构成了完整的道学体系。
+        .catalayout-header 
+          h1 道祖引道曰：《立道祖》为立道之源，《道祖之道》为现行之道，《道境卷》为道之境界。
         .catalayout-content
           include ./includes/catalogcard.pug
-          .catalog-card
-            .catalog-card-title 《立道祖》
-            .catalog-card-content
-              - const dateFilter = { mode: 'before', date: '2025-11-20' }
-              +catalogcard('道经卷', '道经卷', false,dateFilter)
-              +catalogcard('道行卷', '道祖之道',false,dateFilter)
-              +catalogcard('道境卷', '道境卷',false,dateFilter)
-
-
-
-          +catalogcard('《道行卷》', '实践方向',false)
+          +catalogcard('《立道祖》', null, false,{ mode: 'before', date: '2025-11-20' })
+          +catalogcard('《道祖之道》', null, false,{ mode: 'after', date: '2025-11-20' })
           +catalogcard('《道境卷》', '道境卷',false)
-
-    
