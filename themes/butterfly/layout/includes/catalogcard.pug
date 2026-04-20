@@ -33,14 +33,14 @@ mixin catalogcard(cardtitle, catname, exclusiveToggle = true, dateFilter = {})
                   summary.toggle-button= subcat.name
                   .toggle-content
                     each post in filteredPosts
-                      a.post-link(href=url_for(post.path))
+                      a.post-link(href=url_for(post.path) title=post.title)
                         span.post-title= post.title
                         span.post-date= date(post.date, 'YYYY-MM-DD')
           else
             - const filteredPosts = parentCategory.posts.sort('date', -1).toArray().filter(post => shouldInclude(post.date))
             if filteredPosts.length > 0
               each post in filteredPosts
-                a.post-link(href=url_for(post.path))
+                a.post-link(href=url_for(post.path) title=post.title)
                   span.post-title= post.title
                   span.post-date= date(post.date, 'YYYY-MM-DD')
         else
@@ -57,9 +57,15 @@ mixin catalogcard(cardtitle, catname, exclusiveToggle = true, dateFilter = {})
                 summary.toggle-button= topCat.name
                 .toggle-content
                   each post in filteredPosts
-                    a.post-link(href=url_for(post.path))
-                      span.post-title= post.title
-                      span.post-date= date(post.date, 'YYYY-MM-DD')
+                    .card-post-item
+                      a.post-link(href=url_for(post.path) title=post.title)
+                        span.post-title= post.title
+                        span.post-date= date(post.date, 'YYYY-MM-DD')
+                      span.post-category
+                        each item, index in post.categories.data
+                          a(href=url_for(item.path)).post-meta-categories #[=item.name]
+                          if index < post.categories.data.length - 1
+                            i.fas.fa-angle-right.post-meta-separator
             else
               //- 无子分类：直接展示该顶级分类下的文章
               - const filteredPosts = topCat.posts.sort('date', -1).toArray().filter(post => shouldInclude(post.date))

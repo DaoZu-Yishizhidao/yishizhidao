@@ -184,13 +184,20 @@
 
 
 /* ========== 文章链接列表 ========== */
+
+.catalog-card .card-post-item{
+  display: grid;
+  margin: 1.5rem 0;
+  border-bottom: 1px dashed #e0e0e0;
+  
+}
+
+
 .catalog-card .post-link {
 
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 0.5rem;
   align-items: baseline;
-  padding: 0.3rem 0;
   text-decoration: none;
   color: var(--font-color);
   border-bottom: 1px dashed #e0e0e0;
@@ -210,22 +217,29 @@
   text-overflow: ellipsis;
 }
 .catalog-card .post-date {
-  font-size: 0.85em;
+  font-size: 0.7em;
   color: var(--card-meta);
   font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  padding-left: 10px;
 }
 
 .catalog-card .post-category {
   font-size: 0.8rem;
-  color: #7f8c8d;
-  background: #ecf0f1;
-  padding: 0.1rem 0.4rem;
-  border-radius: 12px;
+  color: var(--card-meta);
   white-space: nowrap;
 }
+
+.catalog-card .post-meta-categories {
+  color: var(--card-meta);
+  text-decoration: none;
+}
+.catalog-card .post-meta-categories:hover {
+  color: #5dade2;
+  text-decoration: underline;
+}
+
 [data-theme='dark'] .catalog-card .post-category {
-  background: #2c3e50;
-  color: #bdc3c7;
+  color: var(--card-meta);
 }
 
 

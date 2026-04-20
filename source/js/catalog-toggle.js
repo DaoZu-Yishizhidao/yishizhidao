@@ -62,6 +62,7 @@
     document.addEventListener('DOMContentLoaded', adaptDetailsForMobile);
     document.addEventListener('DOMContentLoaded', initCatalogToggles);
   } else {
+    adaptDetailsForMobile();
     initCatalogToggles();
   }
 
@@ -81,9 +82,9 @@
 //}
 
 // 监听窗口大小变化（可选，若希望旋转设备时也调整）
-window.addEventListener('resize', () => {
-  requestAnimationFrame(adaptDetailsForMobile);
-});
+//window.addEventListener('resize', () => {
+ // requestAnimationFrame(adaptDetailsForMobile);
+//});
 
 // 兼容 Pjax
 window.addEventListener('pjax:complete', adaptDetailsForMobile);
