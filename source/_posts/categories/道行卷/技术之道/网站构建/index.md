@@ -4,8 +4,8 @@ date: 2026-01-28 23:51:28
 writing_date: 2026-01-31 23:07:13
 permalink: /categories/practice/technology/website-build/index/
 tags: [网站构建]
-sticky: 1000
-categories: [道行卷,技术之道,网站构建]
+hide: ture
+categories: [道祖道场,道行卷,技术之道,网站构建]
 ---
 #  一、Hexo 博客自动化部署
 ## 本地环境构建

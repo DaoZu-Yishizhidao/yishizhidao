@@ -4,9 +4,10 @@ block content
     #catalog-homepage.catalog-homepage.nc(class=masonryLayoutClass)
       .catalayout
         .catalayout-header 
-          h1 道祖引道曰：《立道祖》为立道之源，《道祖之道》为现行之道，《道境卷》为道之境界。
+          include ./includes/mixins/indexPostUI.pug
+          +indexPostUI
         .catalayout-content
           include ./includes/catalogcard.pug
           +catalogcard('《立道祖》', null, false,{ mode: 'before', date: '2025-11-20' })
-          +catalogcard('《道祖之道》', null, false,{ mode: 'after', date: '2025-11-20' })
-          +catalogcard('《道境卷》', '道境卷',false)
+          +catalogcard('《道祖道场》', '道祖道场', false)
+          +catalogcard('《道祖动向》', '正在构建',false)

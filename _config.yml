@@ -74,6 +74,12 @@ index_generator:
 default_category: uncategorized
 # ==================== 分类映射开始 ====================
 category_map: 
+  # 一级类别
+  立道祖: li-dao-zu
+  道祖道场: daozu-dojo
+
+  道祖引道: daozu-introduction
+
   # 道经卷
   道经卷: dao-scripture
   法则篇: principles

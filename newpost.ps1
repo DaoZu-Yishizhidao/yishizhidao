@@ -188,7 +188,7 @@ function Get-PostInfo {
 
     # 构建分类字符串,除去根节点categonries
     $categories=$foundFolder
-    $categories=$categories.Replace($($tree.GetSubfolders("")+"/"),"[")
+    $categories=$categories.Replace($($tree.GetSubfolders("")+"/"),"[道祖道场,")
     $categories=$categories.Replace("/",",")+"]"
     $categories="categories: $categories"
 

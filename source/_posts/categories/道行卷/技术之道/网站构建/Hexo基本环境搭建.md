@@ -2,7 +2,7 @@
 title: 第一阶段：基础环境搭建
 date: 2026-01-15 23:58
 tags: [Hexo]
-categories: [道行卷,技术之道,网站构建]
+categories: [道祖道场,道行卷,技术之道,网站构建]
 hide: ture
 ---
 
