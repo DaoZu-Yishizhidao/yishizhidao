@@ -130,8 +130,8 @@ font:
 # -------------------- 页面布局与导航 --------------------
 menu:
   主页: / || fas fa-home
-  《立道祖》: /versions/v1.0/ || fas fa-seedling
-  《道祖道场》: /versions/v2.0/ || fas fa-code-branch
+  《立道祖》: /li-dao-zu/ || fas fa-seedling
+  《道祖道场》: /daozu-dojo/ || fas fa-code-branch
   分类索引: /categories/ || fas fa-th-list
   全部文章: /archives/ || fas fa-archive
   标签云图: /tags/ || fas fa-tags

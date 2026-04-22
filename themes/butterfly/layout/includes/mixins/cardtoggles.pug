@@ -1,0 +1,9 @@
+mixin cardtoggles(categories)
+      include ./carditems.pug
+      each cat in categories
+        - const filteredPosts = cat.posts.sort('date', -1).toArray().filter(post => shouldInclude(post.date))
+        if filteredPosts.length > 0
+          details.toggle(open)
+            summary.toggle-button= cat.name
+            .toggle-content
+                +carditems(filteredPosts)

@@ -1,0 +1,12 @@
+mixin carditems(filteredPosts)
+    if filteredPosts.length > 0
+        each post in filteredPosts
+            .card-post-item
+                a.post-link(href=url_for(post.path) title=post.title)
+                    span.post-title= post.title
+                    span.post-date= date(post.date, 'YYYY-MM-DD')
+                span.post-category
+                    each item, index in post.categories.data
+                        a(href=url_for(item.path)).post-meta-categories #[=item.name]
+                        if index < post.categories.data.length - 1
+                            i.fas.fa-angle-right.post-meta-separator

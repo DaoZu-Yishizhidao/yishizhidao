@@ -1,0 +1,14 @@
+extends includes/layout.pug
+
+block content
+    #catalog-homepage.catalog-homepage.nc(class=masonryLayoutClass)
+      .catalayout
+        .catalayout-header
+          #post
+            article#article-container.container.post-content
+              != page.content
+        .catalayout-content
+          include ./includes/mixins/catacard.pug
+          +catacard('《道祖引道》', { name: '道祖引道' }, false)
+          +catacard('《道论》', { name: '道论' }, false)
+          +catacard('《道行卷》', { name: '道行卷', parent: '道祖道场' }, false)

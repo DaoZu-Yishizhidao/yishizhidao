@@ -1,0 +1,57 @@
+mixin catacard(cardtitle, category={}, exclusiveToggle = true, dateFilter = {})
+  - var cardId = 'card-' + Math.random().toString(36).substr(2, 8)
+  - var exclusiveAttr = exclusiveToggle ? 'true' : 'false'
+  .catalog-card(id=cardId data-exclusive-toggle=exclusiveAttr)
+    .catalog-card-title= cardtitle
+    .catalog-card-content
+
+      - function getCategory(cat) {
+        - if (!cat.name) return null;
+        - if (!cat.parent) {
+          - return site.categories.data.find(c => c.name === cat.name);
+        - } else {
+          - const parentCat = site.categories.data.find(c => c.name === cat.parent);
+          - if (!parentCat) return null;
+          - return site.categories.data.find(c => c.name === cat.name && c.parent === parentCat._id);
+        - }
+      - }
+      //- 日期过滤函数
+      - function shouldInclude(postDate) {
+        - if (!dateFilter.mode) return true;
+        - const postTime = new Date(postDate).getTime();
+        - if (dateFilter.mode === 'after') {
+          - return postTime >= new Date(dateFilter.date).getTime();
+        - } else if (dateFilter.mode === 'before') {
+          - return postTime <= new Date(dateFilter.date).getTime();
+        - } else if (dateFilter.mode === 'between') {
+          - const start = new Date(dateFilter.start).getTime();
+          - const end = new Date(dateFilter.end).getTime();
+          - return postTime >= start && postTime <= end;
+        - }
+        - return true;
+      - }
+      if category.name
+        
+        //- 指定分类：原逻辑，只展示该分类及其子分类
+        - const targetCategory = getCategory(category)
+        if targetCategory
+          - const subcategories = site.categories.data.filter(cat => cat.parent === targetCategory._id)
+          if subcategories.length > 0
+            //- 存在子分类：每个子分类作为一个 details 块
+            include ./cardtoggles.pug
+            +cardtoggles(subcategories)
+          else
+            //- 无子分类：直接展示该分类下的文章
+            include ./carditems.pug
+            +carditems(targetCategory.posts.sort('date', -1).toArray().filter(post => shouldInclude(post.date)))
+        else
+          p 未找到分类：#{category.name}
+
+      else
+        //- 未指定分类：聚合所有顶级分类，每个顶级分类作为一个 details 块
+        - const topCategories = site.categories.data.filter(cat => !cat.parent)
+        if topCategories.length > 0
+          include ./cardtoggles.pug
+          +cardtoggles(topCategories)
+        else
+          p 暂无分类

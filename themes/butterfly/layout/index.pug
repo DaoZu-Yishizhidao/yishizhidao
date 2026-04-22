@@ -7,7 +7,7 @@ block content
           include ./includes/mixins/indexPostUI.pug
           +indexPostUI
         .catalayout-content
-          include ./includes/catalogcard.pug
-          +catalogcard('《立道祖》', null, false,{ mode: 'before', date: '2025-11-20' })
-          +catalogcard('《道祖道场》', '道祖道场', false)
-          +catalogcard('《道祖动向》', '正在构建',false)
+          include ./includes/mixins/catacard.pug
+          +catacard('《立道祖》', {},false,{ mode: 'before', date: '2025-11-20' })
+          +catacard('《道祖道场》', { name: '道祖道场' }, false)
+          +catacard('《道祖动向》', { name: '正在构建' }, false)
