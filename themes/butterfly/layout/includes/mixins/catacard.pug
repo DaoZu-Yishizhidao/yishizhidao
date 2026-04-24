@@ -1,9 +1,4 @@
-mixin catacard(cardtitle, category={}, exclusiveToggle = true, dateFilter = {})
-  - var cardId = 'card-' + Math.random().toString(36).substr(2, 8)
-  - var exclusiveAttr = exclusiveToggle ? 'true' : 'false'
-  .catalog-card(id=cardId data-exclusive-toggle=exclusiveAttr)
-    .catalog-card-title= cardtitle
-    .catalog-card-content
+mixin catacard(category={}, dateFilter = {}) 
 
       - function getCategory(cat) {
         - if (!cat.name) return null;

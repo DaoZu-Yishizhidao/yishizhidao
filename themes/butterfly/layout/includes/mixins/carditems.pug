@@ -1,6 +1,8 @@
-mixin carditems(filteredPosts)
-    if filteredPosts.length > 0
-        each post in filteredPosts
+mixin carditems(filteredPosts, limit)
+    - const maxPosts = (typeof limit === 'number' && limit >= 0) ? limit : filteredPosts.length
+    - const displayPosts = filteredPosts.slice(0, maxPosts)
+    if displayPosts.length > 0
+        each post in displayPosts
             .card-post-item
                 a.post-link(href=url_for(post.path) title=post.title)
                     span.post-title= post.title
@@ -10,3 +12,6 @@ mixin carditems(filteredPosts)
                         a(href=url_for(item.path)).post-meta-categories #[=item.name]
                         if index < post.categories.data.length - 1
                             i.fas.fa-angle-right.post-meta-separator
+
+    else
+        p.no-posts 没有找到相关内容。

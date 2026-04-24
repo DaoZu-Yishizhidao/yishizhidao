@@ -1,7 +1,7 @@
 extends includes/layout.pug
 block content
-  include ./includes/mixins/article-sort.pug
+  include ./includes/mixins/article-sortcost.pug
   #archive
     .article-sort-title= `${_p('page.articles')} - ${getArchiveLength()}`
-    +articleSort(page.posts)
+    +articleSort(page.posts,page.dateField)
     include includes/pagination.pug

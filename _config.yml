@@ -67,7 +67,9 @@ index_generator:
   per_page: 10
   order_by: -date
 
-
+# 禁用默认归档生成器，改为使用自定义脚本生成多重归档
+archive_generator:
+  enabled: false 
 
 
 # Category & Tag

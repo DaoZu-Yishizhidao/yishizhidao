@@ -12,7 +12,7 @@
           if theme.post_meta.post.date_type === 'both'
             i.far.fa-calendar-alt.fa-fw.post-meta-icon
             span.post-meta-label= _p('post.created')
-            time.post-meta-date-created(datetime=date_xml(page.date) title=_p('post.created') + ' ' + full_date(page.date))= date(page.date, config.date_format)
+            time.post-meta-date-created(datetime=date_xml(page.writing_date) title=_p('post.created') + ' ' + full_date(page.writing_date))= date(page.writing_date, config.date_format)
             span.post-meta-separator |
             i.fas.fa-history.fa-fw.post-meta-icon
             span.post-meta-label= _p('post.updated')
@@ -27,12 +27,13 @@
             time(datetime=date_xml(page[date_type]) title=date_title + ' ' + full_date(page[date_type]))= date(page[date_type], config.date_format)
       //- 自定义内容开始
       //- 显示写作时间 (如果文章 Front-matter 中有 writing_date)
+      //- date已经于writing_date交换，所以这里直接使用date字段即可显示写作时间，上述交换的作用是让writing_date保留原始的写作时间，而date则被覆盖为新的日期（通常是发布时间）
       if page.writing_date
         span.post-meta-separator |
         span.post-meta-writingdate
         i.fas.fa-pen-fancy.fa-fw.post-meta-icon
         span.post-meta-label 写作于
-        time(datetime=date_xml(page.writing_date) title='写作时间' + ' ' + full_date(page.writing_date))= date(page.writing_date, config.date_format)
+        time(datetime=date_xml(page.date) title='写作时间' + ' ' + full_date(page.date))= date(page.date, config.date_format)
       //- 自定义内容结束
 
       if theme.post_meta.post.categories && page.categories.data.length > 0

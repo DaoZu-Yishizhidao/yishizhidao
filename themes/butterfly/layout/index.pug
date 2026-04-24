@@ -7,7 +7,45 @@ block content
           include ./includes/mixins/indexPostUI.pug
           +indexPostUI
         .catalayout-content
+          include ./includes/mixins/cardtitle.pug
           include ./includes/mixins/catacard.pug
-          +catacard('《立道祖》', {},false,{ mode: 'before', date: '2025-11-20' })
-          +catacard('《道祖道场》', { name: '道祖道场' }, false)
-          +catacard('《道祖动向》', { name: '正在构建' }, false)
+          +cardtitle('《立道祖》', false)
+            +catacard({},{ mode: 'before', date: '2025-11-20' })
+          +cardtitle('《道祖道场》', false)
+            +catacard({ name: '道祖道场' })
+          +cardtitle('《道祖动向》', false)
+            //- 辅助函数：安全获取指定字段的日期对象
+            - const getDateByField = (post, field) => {
+            -   if (!post) return 0
+            -   const val = field === 'date' ? post.date : post[field]
+            -   return val ? new Date(val).getTime() : 0
+            - }
+
+            include ./includes/mixins/carditems.pug
+
+            details.toggle(open)
+              summary.toggle-button 最新写作动态
+              -
+                const writtenPosts = site.posts.data
+                  .filter(p => p.writing_date)
+                  .sort((a, b) => getDateByField(b, 'writing_date') - getDateByField(a, 'writing_date'))
+              .toggle-content
+                +carditems(writtenPosts, 5)
+
+            details.toggle(open)
+              summary.toggle-button 最新发布动态
+              -
+                const publishedPosts = site.posts.data
+                  .sort((a, b) => getDateByField(b, 'date') - getDateByField(a, 'date'))
+              .toggle-content
+                +carditems(publishedPosts, 5)
+
+            details.toggle(open)
+              summary.toggle-button 最新更新动态
+              -
+                const updatedPosts = site.posts.data
+                  .filter(p => p.updated)
+                  .sort((a, b) => getDateByField(b, 'updated') - getDateByField(a, 'updated'))
+              .toggle-content
+                +carditems(updatedPosts, 5)
+              

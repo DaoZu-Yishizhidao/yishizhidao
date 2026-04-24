@@ -67,6 +67,10 @@ readmode:
   enable: true
 
 
+
+
+
+
 # ==================== 首页配置 ====================
 
 index:
@@ -133,7 +137,10 @@ menu:
   《立道祖》: /li-dao-zu/ || fas fa-seedling
   《道祖道场》: /daozu-dojo/ || fas fa-code-branch
   分类索引: /categories/ || fas fa-th-list
-  全部文章: /archives/ || fas fa-archive
+  文章归档|| fas fa-archive||hide:
+    写作归档: /archives/written/ || fas fa-pen-nib
+    发布归档: /archives/date/ || fas fa-calendar-check
+    更新归档: /archives/updated/ || fas fa-calendar-alt
   标签云图: /tags/ || fas fa-tags
   关于本站: /about/ || fas fa-info-circle
 
@@ -167,13 +174,13 @@ aside:
 
   # 最新文章
   card_recent_post:
-    enable: true
+    enable: false
     limit: 5
     sort: updated # 可选 date
 
   # 分类与标签
   card_categories:
-    enable: true
+    enable: false
     limit: 10
   card_tags:
     enable: true

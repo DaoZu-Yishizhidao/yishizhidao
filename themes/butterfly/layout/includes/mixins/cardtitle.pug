@@ -1,0 +1,7 @@
+mixin cardtitle(cardtitle, exclusiveToggle = true)
+  - var cardId = 'card-' + Math.random().toString(36).substr(2, 8)
+  - var exclusiveAttr = exclusiveToggle ? 'true' : 'false'
+  .catalog-card(id=cardId data-exclusive-toggle=exclusiveAttr)
+    .catalog-card-title= cardtitle
+    .catalog-card-content
+        block

@@ -1,8 +1,16 @@
-mixin articleSort(posts)
+mixin articleSort(posts,dateField = 'date')
+  //- 防御性处理：确保传入的 posts 是数组，并复制一份用于排序
+  - let list = Array.isArray(posts) ? [...posts] : []
+  //- 获取真实日期值的安全辅助（因为字段可能是自定义的，写法略有不同）
+  - const getDate = article => dateField === 'date' ? article.date : new Date(article[dateField])
+  
+  //- 降序排序：最新的文章在前
+  - list.sort((a, b) => (getDate(b) || 0) - (getDate(a) || 0))
   .article-sort
     - let year
-    - posts.forEach(article => {
-      - const tempYear = date(article.writing_date, 'YYYY')
+    - list.forEach(article => {
+      - const d = getDate(article)
+      - const tempYear = date(d, 'YYYY')
       - const noCoverClass = article.cover === false || !theme.cover.archives_enable ? 'no-article-cover' : ''
       - const title = article.title || _p('no_title')
       if tempYear !== year
@@ -18,6 +26,6 @@ mixin articleSort(posts)
         .article-sort-item-info
           .article-sort-item-time
             i.far.fa-calendar-alt
-            time.post-meta-date-created(datetime=date_xml(article.date) title=_p('post.created') + ' ' + full_date(article.date))= date(article.date, config.date_format)
+            time.post-meta-date-created(datetime=date_xml(d) title=_p('post.created') + ' ' + full_date(d))= date(d, config.date_format)
           a.article-sort-item-title(href=url_for(article.path) title=title)= title
     - })
