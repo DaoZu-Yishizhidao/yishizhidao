@@ -1,8 +1,8 @@
-mixin articleSort(posts)
+mixin articleSort(posts,dateField = 'date')
   .article-sort
     - let year
     - posts.forEach(article => {
-      - const tempYear = date(article.date, 'YYYY')
+      - const tempYear = date(article[dateField], 'YYYY')
       - const noCoverClass = article.cover === false || !theme.cover.archives_enable ? 'no-article-cover' : ''
       - const title = article.title || _p('no_title')
       if tempYear !== year
@@ -18,6 +18,6 @@ mixin articleSort(posts)
         .article-sort-item-info
           .article-sort-item-time
             i.far.fa-calendar-alt
-            time.post-meta-date-created(datetime=date_xml(article.date) title=_p('post.created') + ' ' + full_date(article.date))= date(article.date, config.date_format)
+            time.post-meta-date-created(datetime=date_xml(article[dateField]) title=_p('post.created') + ' ' + full_date(article[dateField]))= date(article[dateField], config.date_format)
           a.article-sort-item-title(href=url_for(article.path) title=title)= title
     - })

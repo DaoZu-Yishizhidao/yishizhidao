@@ -1,7 +1,15 @@
 extends includes/layout.pug
 block content
-  include ./includes/mixins/article-sortcost.pug
+  include ./includes/mixins/article-sort.pug
   #archive
+    p.archive-title= page.dateField === 'writing_date' ? _p('发布时间') : page.dateField === 'updated' ? _p('更新时间') : _p('写作时间')
     .article-sort-title= `${_p('page.articles')} - ${getArchiveLength()}`
-    +articleSort(page.posts,page.dateField)
+    //- 防御性处理：确保传入的 posts 是数组，并复制一份用于排序
+    - let list = Array.isArray(page.posts) ? [...page.posts] : []
+    //- 获取真实日期值的安全辅助（因为字段可能是自定义的，写法略有不同）
+    - const getDate = article => dateField === 'date' ? article.date : new Date(article[dateField])
+    
+    //- 降序排序：最新的文章在前
+    - list.sort((a, b) => (getDate(b) || 0) - (getDate(a) || 0))
+    +articleSort(list, page.dateField)
     include includes/pagination.pug

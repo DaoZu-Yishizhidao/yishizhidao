@@ -1,4 +1,4 @@
-mixin carditems(filteredPosts, limit)
+mixin carditems(filteredPosts, limit,dateField = 'date')
     - const maxPosts = (typeof limit === 'number' && limit >= 0) ? limit : filteredPosts.length
     - const displayPosts = filteredPosts.slice(0, maxPosts)
     if displayPosts.length > 0
@@ -6,7 +6,7 @@ mixin carditems(filteredPosts, limit)
             .card-post-item
                 a.post-link(href=url_for(post.path) title=post.title)
                     span.post-title= post.title
-                    span.post-date= date(post.date, 'YYYY-MM-DD')
+                    span.post-date= date(post[dateField], 'YYYY-MM-DD')
                 span.post-category
                     each item, index in post.categories.data
                         a(href=url_for(item.path)).post-meta-categories #[=item.name]

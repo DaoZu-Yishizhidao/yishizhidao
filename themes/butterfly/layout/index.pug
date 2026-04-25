@@ -24,16 +24,16 @@ block content
             include ./includes/mixins/carditems.pug
 
             details.toggle(open)
-              summary.toggle-button 最新写作动态
+              summary.toggle-button 最新发布动态
               -
                 const writtenPosts = site.posts.data
                   .filter(p => p.writing_date)
                   .sort((a, b) => getDateByField(b, 'writing_date') - getDateByField(a, 'writing_date'))
               .toggle-content
-                +carditems(writtenPosts, 5)
+                +carditems(writtenPosts, 5, 'writing_date')
 
             details.toggle(open)
-              summary.toggle-button 最新发布动态
+              summary.toggle-button 最新写作动态
               -
                 const publishedPosts = site.posts.data
                   .sort((a, b) => getDateByField(b, 'date') - getDateByField(a, 'date'))
@@ -47,5 +47,5 @@ block content
                   .filter(p => p.updated)
                   .sort((a, b) => getDateByField(b, 'updated') - getDateByField(a, 'updated'))
               .toggle-content
-                +carditems(updatedPosts, 5)
+                +carditems(updatedPosts, 5, 'updated')
               

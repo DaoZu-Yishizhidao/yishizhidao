@@ -11,7 +11,7 @@ hexo.extend.generator.register('multi_archive', function (locals) {
 
   // 归档类型配置，可完全自定义,date与writing_date已交换值，date表示写作日期，writing_date表示发布日期
   const archiveTypes = config.types || [
-    { field: 'date', path: 'archives/written/', label: 'by-written' },
+    { field: 'date', path: 'archives/', label: 'by-written' },
     { field: 'writing_date', path: 'archives/date/', label: 'by-date' },
     { field: 'updated', path: 'archives/updated/', label: 'by-updated' }
   ];

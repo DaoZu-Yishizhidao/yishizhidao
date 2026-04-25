@@ -138,7 +138,7 @@ menu:
   《道祖道场》: /daozu-dojo/ || fas fa-code-branch
   分类索引: /categories/ || fas fa-th-list
   文章归档|| fas fa-archive||hide:
-    写作归档: /archives/written/ || fas fa-pen-nib
+    写作归档: /archives/ || fas fa-pen-nib
     发布归档: /archives/date/ || fas fa-calendar-check
     更新归档: /archives/updated/ || fas fa-calendar-alt
   标签云图: /tags/ || fas fa-tags
